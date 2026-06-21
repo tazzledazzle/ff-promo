@@ -896,16 +896,11 @@ test('skeleton completes all stages with stub pass', async () => {
 | A3 | Pin TypeScript ~5.8.x despite 6.0.3 on npm | Standard Stack | Some deps may require TS 6 — spike during Wave 0 |
 | A4 | `cuid()` default IDs suitable for workflowId | Prisma Schema | UUID v4 also fine if team prefers |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Shared vs separate Postgres for Temporal in compose**
-   - What we know: D-12 requires Postgres + Temporal dev server; Temporal dev server can use embedded SQLite [CITED: docs.temporal.io]
-   - What's unclear: Whether portfolio project wants production-parity Temporal postgres from day one
-   - Recommendation: Embedded Temporal store for Phase 1; document upgrade path to `samples-server/compose/docker-compose-postgres.yml`
+1. **Shared vs separate Postgres for Temporal in compose** — **RESOLVED:** Use embedded Temporal store in compose (`temporal server start-dev` with `--db-filename /tmp/temporal.db` via temporalio/admin-tools image); app Postgres remains separate `ffpromo` database on postgres:16 service. Upgrade path documented to `samples-server/compose` for production parity.
 
-2. **Prisma generator output path**
-   - What we know: Prisma 7 docs show `output = "./generated"` option
-   - Recommendation: Use default or `./generated/client`; export from `@ff-promo/db` package index
+2. **Prisma generator output path** — **RESOLVED:** Use `output = "../generated/client"` in schema generator block; import PrismaClient from `../generated/client` in client.ts; re-export types via `@ff-promo/db` package index.
 
 ## Environment Availability
 
