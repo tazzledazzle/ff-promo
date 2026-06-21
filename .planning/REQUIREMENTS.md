@@ -89,13 +89,35 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated during roadmap creation) | | |
+| SAFE-01 | Phase 1 | Pending |
+| PROV-01 | Phase 2 | Pending |
+| PROV-02 | Phase 2 | Pending |
+| PROV-03 | Phase 2 | Pending |
+| TELE-03 | Phase 3 | Pending |
+| TELE-04 | Phase 3 | Pending |
+| PIPE-02 | Phase 4 | Pending |
+| PIPE-03 | Phase 4 | Pending |
+| PIPE-04 | Phase 4 | Pending |
+| SAFE-02 | Phase 4 | Pending |
+| API-01 | Phase 5 | Pending |
+| API-02 | Phase 5 | Pending |
+| UI-01 | Phase 6 | Pending |
+| UI-02 | Phase 6 | Pending |
+| UI-03 | Phase 6 | Pending |
+| PIPE-01 | Phase 7 | Pending |
+| TELE-01 | Phase 7 | Pending |
+| TELE-02 | Phase 7 | Pending |
+| GRD-01 | Phase 7 | Pending |
+| GRD-02 | Phase 7 | Pending |
+| GRD-03 | Phase 7 | Pending |
+| API-03 | Phase 7 | Pending |
+| UI-04 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 22 total
-- Mapped to phases: 0
-- Unmapped: 22 ⚠️
+- v1 requirements: 23 total
+- Mapped to phases: 23
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-20*
-*Last updated: 2026-06-20 after initial definition*
+*Last updated: 2026-06-20 after roadmap creation*
