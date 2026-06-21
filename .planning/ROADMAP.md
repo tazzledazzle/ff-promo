@@ -29,7 +29,14 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
   2. Every promotion event (actor, action, timestamp, gate results) is recorded in an append-only audit log
   3. Operator can query audit history for a promotion run via the data layer
   4. Temporal worker can start a durable promotion workflow skeleton tied to a persisted run record
-**Plans**: TBD
+**Plans:** 5 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Monorepo bootstrap (pnpm, turbo, Docker Compose, Vitest, app shells)
+- [ ] 01-02-PLAN.md — Prisma schema, Zod contracts, [BLOCKING] initial migration
+- [ ] 01-03-PLAN.md — Repositories, append-only audit, SAFE-01 integration tests
+- [ ] 01-04-PLAN.md — Temporal worker FSM skeleton with signals and stub activities
+- [ ] 01-05-PLAN.md — Seed data, smoke tests, README dev workflow
 
 ### Phase 2: LaunchDarkly Adapter
 **Goal**: System reliably reads and writes flag targeting state in LaunchDarkly per environment
@@ -105,7 +112,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Data Layer | 0/TBD | Not started | - |
+| 1. Foundation & Data Layer | 0/5 | Not started | - |
 | 2. LaunchDarkly Adapter | 0/TBD | Not started | - |
 | 3. Telemetry Adapter | 0/TBD | Not started | - |
 | 4. Promotion Engine | 0/TBD | Not started | - |
