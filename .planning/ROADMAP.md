@@ -7,6 +7,7 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 ## Phases
 
 **Phase Numbering:**
+
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
@@ -21,88 +22,119 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 ## Phase Details
 
 ### Phase 1: Foundation & Data Layer
+
 **Goal**: System has durable domain persistence and audit infrastructure for all promotion activity
 **Depends on**: Nothing (first phase)
 **Requirements**: SAFE-01
 **Success Criteria** (what must be TRUE):
+
   1. System persists pipeline definitions, promotion runs, and gate results across restarts
   2. Every promotion event (actor, action, timestamp, gate results) is recorded in an append-only audit log
   3. Operator can query audit history for a promotion run via the data layer
   4. Temporal worker can start a durable promotion workflow skeleton tied to a persisted run record
-**Plans:** 6 plans
 
+**Plans:** 6 plans
 Plans:
+**Wave 1**
+
 - [ ] 01-01-PLAN.md — Monorepo workspace and app/package shells (pnpm, turbo)
 - [ ] 01-06-PLAN.md — Docker Compose, Vitest harness, testcontainers setup (D-12, D-15)
 - [ ] 01-02-PLAN.md — Prisma schema, Zod contracts, [BLOCKING] initial migration
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 01-03-PLAN.md — Repositories, append-only audit, SAFE-01 integration tests
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 01-04-PLAN.md — Temporal worker FSM skeleton with signals and stub activities
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 01-05-PLAN.md — Seed data, smoke tests, README dev workflow
 
 ### Phase 2: LaunchDarkly Adapter
+
 **Goal**: System reliably reads and writes flag targeting state in LaunchDarkly per environment
 **Depends on**: Phase 1
 **Requirements**: PROV-01, PROV-02, PROV-03
 **Success Criteria** (what must be TRUE):
+
   1. Operator can read flag variations, targeting rules, and environment state from LaunchDarkly
   2. System applies targeting updates to LaunchDarkly via semantic patch API
   3. System resolves correct variation IDs per environment before any promotion write
   4. System handles LaunchDarkly rate limits without corrupting flag state
+
 **Plans**: TBD
 
 ### Phase 3: Telemetry Adapter
+
 **Goal**: System evaluates SLO gates and pre-flight health checks against Prometheus metrics
 **Depends on**: Phase 1
 **Requirements**: TELE-03, TELE-04
 **Success Criteria** (what must be TRUE):
+
   1. System evaluates error rate SLO gates against Prometheus metrics for the target service
   2. System evaluates latency (p95) SLO gates against Prometheus metrics for the target service
   3. Operator receives pre-flight health check results before promotion starts (metric flow, minimum sample size, context kind alignment)
   4. System blocks promotion start when pre-flight health checks fail
+
 **Plans**: TBD
 
 ### Phase 4: Promotion Engine
+
 **Goal**: Flags advance across environments only when telemetry gates pass; failed gates hold progression
 **Depends on**: Phase 2, Phase 3
 **Requirements**: PIPE-02, PIPE-03, PIPE-04, SAFE-02
 **Success Criteria** (what must be TRUE):
+
   1. Developer can start a promotion run for a flag through a defined pipeline
   2. System advances flag to the next environment only when telemetry gates pass for the current stage
   3. System holds at the current environment when telemetry gates fail (no silent advancement)
   4. Operator can emergency-stop an in-flight promotion immediately
+
 **Plans**: TBD
 
 ### Phase 5: REST API
+
 **Goal**: Operators control promotions and query status programmatically via REST
 **Depends on**: Phase 4
 **Requirements**: API-01, API-02
 **Success Criteria** (what must be TRUE):
+
   1. Operator can create, start, pause, resume, and abort promotion runs via REST API
   2. Operator can query promotion run status and gate evaluation history via REST API
   3. API responses include structured gate forensics (metric values, pass/fail, stage context) on pause events
+
 **Plans**: TBD
 
 ### Phase 6: Operator Dashboard
+
 **Goal**: Operators monitor promotion health and control runs from a web interface
 **Depends on**: Phase 5
 **Requirements**: UI-01, UI-02, UI-03
 **Success Criteria** (what must be TRUE):
+
   1. Operator can view active and historical promotion runs with current environment stage
   2. Operator can view telemetry gate status (pass/fail, metric values) per promotion run
   3. Operator can trigger promotion actions (start, pause, resume, abort) from the dashboard
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 7: Guardrails & Self-Service
+
 **Goal**: Platform engineers configure guardrails; developers self-serve promotions within enforced bounds
 **Depends on**: Phase 6
 **Requirements**: PIPE-01, TELE-01, TELE-02, GRD-01, GRD-02, GRD-03, API-03, UI-04
 **Success Criteria** (what must be TRUE):
+
   1. Platform engineer can define multi-environment promotion pipelines (dev → staging → prod)
   2. Platform engineer can configure error rate and latency (p95) SLO thresholds per pipeline stage
   3. Platform engineer can configure guardrails (SLO thresholds, allowed environments, promotion policies) via REST API and dashboard
   4. Developer can trigger promotion within configured guardrail bounds without platform team intervention
   5. System rejects out-of-bounds promotion requests server-side
+
 **Plans**: TBD
 **UI hint**: yes
 
@@ -124,11 +156,13 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 ## Research Flags
 
 Phases likely needing `/gsd-plan-phase --research-phase`:
+
 - **Phase 2:** LaunchDarkly semantic patch edge cases (variation ID resolution, atomic patches, 429 rate limits)
 - **Phase 3:** Cohort delta query contract (treatment vs control labeling, baseline semantics, minimum sample thresholds)
 - **Phase 4:** Temporal workflow design for multi-hour stages with pause/resume signals and idempotent LD writes
 
 Phases with standard patterns (likely skip research-phase):
+
 - **Phase 1:** TypeScript monorepo + Prisma + Temporal local dev
 - **Phase 5:** Fastify REST + OpenAPI
 - **Phase 6:** Next.js ops dashboard with Tanstack Query polling
