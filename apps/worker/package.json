@@ -1,0 +1,24 @@
+{
+  "name": "@ff-promo/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node -e \"process.exit(0)\"",
+    "lint": "biome check src",
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@ff-promo/contracts": "workspace:*",
+    "@ff-promo/db": "workspace:*",
+    "@temporalio/activity": "1.18.1",
+    "@temporalio/client": "1.18.1",
+    "@temporalio/worker": "1.18.1",
+    "@temporalio/workflow": "1.18.1"
+  },
+  "devDependencies": {
+    "@temporalio/testing": "1.18.1",
+    "typescript": "~5.8.3"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@ff-promo/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node -e \"process.exit(0)\"",
+    "lint": "biome check src",
+    "dev": "tsx watch src/index.ts"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3"
+  }
+}
