@@ -17,7 +17,7 @@ export function usePipelines() {
 	});
 
 	return {
-		pipelines: query.data?.pipelines ?? [],
+		pipelines: (query.data?.pipelines ?? []) as PipelineListItem[],
 		isLoading: query.isLoading,
 		isError: query.isError,
 		error: query.error,

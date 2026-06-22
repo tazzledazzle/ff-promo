@@ -47,11 +47,16 @@ describe('control actions integration', () => {
 		);
 
 		fireEvent.click(screen.getByRole('button', { name: 'Abort' }));
-		expect(
-			screen.getByRole('heading', { name: 'Abort promotion?' }),
-		).toBeInTheDocument();
 
-		fireEvent.click(screen.getByRole('button', { name: 'Abort promotion' }));
+		await waitFor(() => {
+			expect(
+				screen.getByRole('heading', { name: 'Abort promotion?' }),
+			).toBeInTheDocument();
+		});
+
+		fireEvent.click(
+			screen.getByRole('button', { name: 'Abort promotion' }),
+		);
 
 		await waitFor(() => {
 			expect(abortCalled).toBe(true);

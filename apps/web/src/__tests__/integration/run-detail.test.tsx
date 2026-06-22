@@ -14,6 +14,8 @@ describe('run detail integration', () => {
 			).toBeInTheDocument();
 		});
 
-		expect(screen.getByText('promotion_paused')).toBeInTheDocument();
+		await waitFor(() => {
+			expect(screen.getByText('promotion_paused')).toBeInTheDocument();
+		});
 	});
 });

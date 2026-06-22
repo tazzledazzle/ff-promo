@@ -1,10 +1,7 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { GateForensicsPanel } from '@/components/runs/gate-forensics-panel';
-import {
-	mockGateForensics,
-	mockPausedRun,
-} from '@/__tests__/mocks/handlers';
+import { mockGateForensics } from '@/__tests__/mocks/handlers';
 import { renderWithProviders } from '@/__tests__/helpers/render';
 import type { GateForensics } from '@ff-promo/contracts';
 
@@ -14,16 +11,15 @@ describe('GateForensicsPanel', () => {
 
 		expect(screen.getByText('error_rate')).toBeInTheDocument();
 		expect(screen.getByText('fail')).toBeInTheDocument();
-		expect(screen.getByText('0.01')).toBeInTheDocument();
-		expect(screen.getByText('0.05')).toBeInTheDocument();
+		expect(screen.getAllByText('0.01').length).toBeGreaterThan(0);
+		expect(screen.getAllByText('0.05').length).toBeGreaterThan(0);
 	});
 
 	it('shows pauseReason header and stage displayName/environment', () => {
 		renderWithProviders(<GateForensicsPanel forensics={mockGateForensics} />);
 
-		expect(screen.getByText(/threshold_exceeded/)).toBeInTheDocument();
-		expect(screen.getByText(/Dev/)).toBeInTheDocument();
-		expect(screen.getByText(/dev/)).toBeInTheDocument();
+		expect(screen.getByText(/Pause reason: threshold_exceeded/)).toBeInTheDocument();
+		expect(screen.getByText(/Stage 0: Dev \(dev\)/)).toBeInTheDocument();
 	});
 
 	it('shows empty forensics message with pauseReason when manual pause', () => {
@@ -38,6 +34,8 @@ describe('GateForensicsPanel', () => {
 		renderWithProviders(<GateForensicsPanel forensics={manualPause} />);
 
 		expect(screen.getByText(/No gate failures recorded/)).toBeInTheDocument();
-		expect(screen.getByText(/operator_pause/)).toBeInTheDocument();
+		expect(
+			screen.getByText(/pause reason: operator_pause/),
+		).toBeInTheDocument();
 	});
 });

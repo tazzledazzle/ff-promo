@@ -14,16 +14,14 @@ describe('create run integration', () => {
 		pushMock.mockClear();
 		renderWithProviders(<NewRunPage />);
 
+		const pipelineSelect = await screen.findByLabelText('Pipeline');
+		await screen.findByRole('option', { name: /Dev Pipeline/ });
+		fireEvent.change(pipelineSelect, { target: { value: 'pipeline-1' } });
+
 		await waitFor(() => {
-			expect(screen.getByLabelText('Pipeline')).toBeInTheDocument();
+			expect(screen.getByLabelText('Flag key')).toHaveValue('api-read-flag');
 		});
 
-		fireEvent.change(screen.getByLabelText('Pipeline'), {
-			target: { value: 'pipeline-1' },
-		});
-		fireEvent.change(screen.getByLabelText('Flag key'), {
-			target: { value: 'api-read-flag' },
-		});
 		fireEvent.click(screen.getByRole('button', { name: 'Create run' }));
 
 		await waitFor(() => {

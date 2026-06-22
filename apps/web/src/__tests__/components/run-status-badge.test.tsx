@@ -15,6 +15,14 @@ describe('RunStatusBadge', () => {
 	});
 
 	it('maps all PromotionStatus values from contracts without local enum duplication', () => {
+		expect(ALL_PROMOTION_STATUSES).toEqual([
+			'pending',
+			'active',
+			'paused',
+			'completed',
+			'aborted',
+		]);
+
 		for (const status of ALL_PROMOTION_STATUSES) {
 			const { unmount } = renderWithProviders(
 				<RunStatusBadge status={status} />,

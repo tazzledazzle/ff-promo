@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { dashboardActor } from '@/lib/actor';
@@ -22,12 +22,14 @@ export default function NewRunPage() {
 
 	const selectedPipeline = pipelines.find((p) => p.id === pipelineId);
 
+	useEffect(() => {
+		if (selectedPipeline) {
+			setFlagKey(selectedPipeline.flagKey);
+		}
+	}, [selectedPipeline]);
+
 	const handlePipelineChange = (value: string) => {
 		setPipelineId(value);
-		const pipeline = pipelines.find((p) => p.id === value);
-		if (pipeline) {
-			setFlagKey(pipeline.flagKey);
-		}
 	};
 
 	const handleSubmit = async (event: React.FormEvent) => {

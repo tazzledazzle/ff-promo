@@ -20,18 +20,19 @@ export function usePromotionRun(runId: string) {
 
 	const status = runQuery.data?.run.status;
 	const pollInterval = runPollIntervalMs(status);
+	const detailsReady = runQuery.isSuccess && Boolean(runId);
 
 	const gateResultsQuery = useQuery({
 		queryKey: queryKeys.promotionRun.gateResults(runId),
 		queryFn: () => api.listGateResults(runId),
-		enabled: Boolean(runId) && Boolean(runQuery.data),
+		enabled: detailsReady,
 		refetchInterval: pollInterval,
 	});
 
 	const auditEventsQuery = useQuery({
 		queryKey: queryKeys.promotionRun.auditEvents(runId),
 		queryFn: () => api.listAuditEvents(runId),
-		enabled: Boolean(runId) && Boolean(runQuery.data),
+		enabled: detailsReady,
 		refetchInterval: pollInterval,
 	});
 
