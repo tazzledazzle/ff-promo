@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ActorType {
+  user
+  system
+  api_key
+}
+
+enum PromotionStatus {
+  pending
+  active
+  paused
+  completed
+  aborted
+}
+
+enum GateVerdict {
+  pass
+  fail
+  pending
+  skipped
+}
+
+enum AuditAction {
+  run_started
+  run_paused
+  run_resumed
+  run_aborted
+  run_completed
+  stage_entered
+  stage_advanced
+  gate_evaluated
+}
+
+model Pipeline {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  version     Int      @default(1)
+  flagKey     String
+  projectKey  String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  stages Stage[]
+  runs   PromotionRun[]
+
+  @@unique([name, version])
+  @@index([flagKey])
+}
+
+model Stage {
+  id          String @id @default(cuid())
+  pipelineId  String
+  pipeline    Pipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  orderIndex  Int
+  environment String
+  displayName String
+
+  gatePolicies GatePolicy[]
+  gateResults  GateResult[]
+
+  @@unique([pipelineId, orderIndex])
+  @@unique([pipelineId, environment])
+}
+
+model GatePolicy {
+  id             String @id @default(cuid())
+  stageId        String
+  stage          Stage  @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  metricType     String
+  threshold      Float
+  comparisonMode String @default("absolute")
+  windowSeconds  Int    @default(300)
+  minSampleSize  Int    @default(0)
+  serviceName    String
+
+  @@unique([stageId, metricType])
+}
+
+model PromotionRun {
+  id                 String          @id @default(cuid())
+  pipelineId         String
+  pipeline           Pipeline        @relation(fields: [pipelineId], references: [id])
+  pipelineVersion    Int
+  flagKey            String
+  status             PromotionStatus @default(pending)
+  currentStageIndex  Int             @default(0)
+  temporalWorkflowId String?         @unique
+  pauseReason        String?
+  startedAt          DateTime?
+  completedAt        DateTime?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  gateResults GateResult[]
+  auditEvents AuditEvent[]
+
+  @@index([status])
+  @@index([flagKey, status])
+}
+
+model GateResult {
+  id             String       @id @default(cuid())
+  promotionRunId String
+  promotionRun   PromotionRun @relation(fields: [promotionRunId], references: [id], onDelete: Cascade)
+  stageId        String
+  stage          Stage        @relation(fields: [stageId], references: [id])
+  verdict        GateVerdict
+  metricType     String
+  observedValue  Float?
+  threshold      Float
+  metadata       Json
+  evaluatedAt    DateTime     @default(now())
+
+  auditEvents AuditEvent[]
+
+  @@index([promotionRunId, evaluatedAt])
+}
+
+model AuditEvent {
+  id             String       @id @default(cuid())
+  promotionRunId String
+  promotionRun   PromotionRun @relation(fields: [promotionRunId], references: [id], onDelete: Cascade)
+  action         AuditAction
+  actorType      ActorType
+  actorId        String
+  displayName    String?
+  gateResultId   String?
+  gateResult     GateResult?  @relation(fields: [gateResultId], references: [id])
+  metadata       Json
+  occurredAt     DateTime     @default(now())
+
+  @@index([promotionRunId, occurredAt])
+}
