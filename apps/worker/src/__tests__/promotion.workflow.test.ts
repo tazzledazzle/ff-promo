@@ -1,6 +1,5 @@
-import path from 'node:path';
+import { createRequire } from 'node:module';
 import { randomUUID } from 'node:crypto';
-import { fileURLToPath } from 'node:url';
 import { TestWorkflowEnvironment } from '@temporalio/testing';
 import { Worker } from '@temporalio/worker';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -17,10 +16,8 @@ import {
   stopTestDatabase,
 } from '../../../../packages/db/src/__tests__/setup.js';
 
-const workflowsPath = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../workflows',
-);
+const require = createRequire(import.meta.url);
+const workflowsPath = require.resolve('../workflows/promotion.workflow.ts');
 
 const TASK_QUEUE = 'test-promotion-workflow';
 

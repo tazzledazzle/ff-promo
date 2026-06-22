@@ -1,6 +1,5 @@
-import path from 'node:path';
+import { createRequire } from 'node:module';
 import { randomUUID } from 'node:crypto';
-import { fileURLToPath } from 'node:url';
 import { TestWorkflowEnvironment } from '@temporalio/testing';
 import { Worker } from '@temporalio/worker';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -23,10 +22,8 @@ import {
   stopTestDatabase,
 } from '../../../../packages/db/src/__tests__/setup.js';
 
-const workflowsPath = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../workflows',
-);
+const require = createRequire(import.meta.url);
+const workflowsPath = require.resolve('../workflows/promotion.workflow.ts');
 
 const TASK_QUEUE = 'test-promotion-signals';
 
@@ -104,8 +101,6 @@ describe('promotionWorkflow signals', () => {
         ],
       });
 
-      await testEnv.sleep('500ms');
-
       await handle.signal(pauseSignal);
       const pausedStatus = await handle.query(statusQuery);
       expect(pausedStatus.isPaused).toBe(true);
@@ -145,13 +140,12 @@ describe('promotionWorkflow signals', () => {
         args: [
           {
             promotionRunId: run.id,
-            stageCount: 3,
+            stageCount: 50,
             actor: { actorType: 'system', actorId: 'test' },
           },
         ],
       });
 
-      await testEnv.sleep('300ms');
       await handle.signal(abortSignal);
       await handle.result();
     });
