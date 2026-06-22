@@ -16,11 +16,14 @@ import { promotionRunRoutes } from './routes/promotion-runs.js';
 import { pipelineRoutes } from './routes/pipelines.js';
 import type { PromotionRunService } from './services/promotion-run.service.js';
 import { createPromotionRunService } from './services/promotion-run.service.js';
+import type { PipelineService } from './services/pipeline.service.js';
+import { createPipelineService } from './services/pipeline.service.js';
 
 export type BuildAppOptions = {
 	env?: Env;
 	temporalClient?: Client;
 	service?: PromotionRunService;
+	pipelineService?: PipelineService;
 };
 
 declare module 'fastify' {
@@ -78,8 +81,14 @@ export async function buildApp(options: BuildAppOptions = {}) {
 			taskQueue: env.TEMPORAL_TASK_QUEUE,
 		});
 
+	const pipelineService =
+		options.pipelineService ??
+		createPipelineService({
+			databaseUrl: env.DATABASE_URL,
+		});
+
 	await app.register(promotionRunRoutes(service));
-	await app.register(pipelineRoutes, { prefix: '/v1/pipelines' });
+	await app.register(pipelineRoutes(pipelineService), { prefix: '/v1/pipelines' });
 
 	return app;
 }

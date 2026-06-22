@@ -3,6 +3,7 @@ export {
   AuditRepository,
   createRepositories,
   GateResultRepository,
+  PipelineAuditRepository,
   PipelineRepository,
   PromotionRunRepository,
 } from './repositories/index.js';

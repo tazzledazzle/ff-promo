@@ -39,6 +39,12 @@ enum AuditAction {
   gate_evaluated
 }
 
+enum PipelineConfigAction {
+  pipeline_created
+  pipeline_deactivated
+  pipeline_updated
+}
+
 model Pipeline {
   id          String   @id @default(cuid())
   name        String
@@ -52,6 +58,7 @@ model Pipeline {
 
   stages Stage[]
   runs   PromotionRun[]
+  configAudits PipelineConfigAudit[]
 
   @@unique([name, version])
   @@index([flagKey])
@@ -140,4 +147,18 @@ model AuditEvent {
   occurredAt     DateTime     @default(now())
 
   @@index([promotionRunId, occurredAt])
+}
+
+model PipelineConfigAudit {
+  id          String               @id @default(cuid())
+  pipelineId  String
+  pipeline    Pipeline             @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  action      PipelineConfigAction
+  actorType   ActorType
+  actorId     String
+  displayName String?
+  metadata    Json                 @default("{}")
+  occurredAt  DateTime             @default(now())
+
+  @@index([pipelineId, occurredAt])
 }

@@ -1,82 +1,80 @@
 import type { FastifyPluginAsyncZod } from '@fastify/type-provider-zod';
-import { PipelineListResponseSchema } from '@ff-promo/contracts';
+import {
+	PipelineCreateRequestSchema,
+	PipelineDetailResponseSchema,
+	PipelineListResponseSchema,
+	PipelineResponseSchema,
+	PipelineUpdateRequestSchema,
+} from '@ff-promo/contracts';
 import { z } from 'zod';
-import { createRequestDb } from '../lib/db.js';
-import { notFound } from '../errors/api-error.js';
+import type { PipelineService } from '../services/pipeline.service.js';
 
-export const pipelineRoutes: FastifyPluginAsyncZod = async (app) => {
-	const env = app.env;
-
-	app.get(
-		'/',
-		{
-			schema: {
-				response: { 200: PipelineListResponseSchema },
-			},
-		},
-		async () => {
-			const { repos, dispose } = createRequestDb(env.DATABASE_URL);
-			try {
-				const pipelines = await repos.pipeline.listActive();
-				return {
-					pipelines: pipelines.map((pipeline) => ({
-						id: pipeline.id,
-						name: pipeline.name,
-						flagKey: pipeline.flagKey,
-						stageCount: pipeline.stages.length,
-					})),
-				};
-			} finally {
-				await dispose();
-			}
-		},
-	);
-
-	app.get(
-		'/:id',
-		{
-			schema: {
-				params: z.object({ id: z.string() }),
-				response: {
-					200: z.object({
-						id: z.string(),
-						name: z.string(),
-						flagKey: z.string(),
-						projectKey: z.string(),
-						stages: z.array(
-							z.object({
-								id: z.string(),
-								orderIndex: z.number().int(),
-								environment: z.string(),
-								displayName: z.string(),
-							}),
-						),
-					}),
+export function pipelineRoutes(service: PipelineService): FastifyPluginAsyncZod {
+	return async (app) => {
+		app.get(
+			'/',
+			{
+				schema: {
+					response: { 200: PipelineListResponseSchema },
 				},
 			},
-		},
-		async (request) => {
-			const { repos, dispose } = createRequestDb(env.DATABASE_URL);
-			try {
-				const pipeline = await repos.pipeline.findById(request.params.id);
-				if (!pipeline) {
-					throw notFound(`Pipeline ${request.params.id} not found`);
-				}
+			async () => service.listPipelines(),
+		);
+
+		app.post(
+			'/',
+			{
+				schema: {
+					body: PipelineCreateRequestSchema,
+					response: { 201: PipelineResponseSchema },
+				},
+			},
+			async (request, reply) => {
+				const pipeline = await service.createPipeline(request.body);
+				return reply.status(201).send(pipeline);
+			},
+		);
+
+		app.get(
+			'/:id',
+			{
+				schema: {
+					params: z.object({ id: z.string() }),
+					response: { 200: PipelineDetailResponseSchema },
+				},
+			},
+			async (request) => {
+				const pipeline = await service.getPipeline(request.params.id);
 				return {
 					id: pipeline.id,
 					name: pipeline.name,
 					flagKey: pipeline.flagKey,
 					projectKey: pipeline.projectKey,
+					description: pipeline.description,
+					isActive: pipeline.isActive,
+					version: pipeline.version,
 					stages: pipeline.stages.map((stage) => ({
 						id: stage.id,
 						orderIndex: stage.orderIndex,
 						environment: stage.environment,
 						displayName: stage.displayName,
+						gatePolicies: stage.gatePolicies,
 					})),
 				};
-			} finally {
-				await dispose();
-			}
-		},
-	);
-};
+			},
+		);
+
+		app.patch(
+			'/:id',
+			{
+				schema: {
+					params: z.object({ id: z.string() }),
+					body: PipelineUpdateRequestSchema,
+					response: { 200: PipelineResponseSchema },
+				},
+			},
+			async (request) =>
+				service.updatePipeline(request.params.id, request.body),
+		);
+	};
+}
