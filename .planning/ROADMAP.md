@@ -65,7 +65,24 @@ Plans:
   3. System resolves correct variation IDs per environment before any promotion write
   4. System handles LaunchDarkly rate limits without corrupting flag state
 
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+**Wave 0**
+
+- [ ] 02-01-PLAN.md — ld-adapter scaffold, contracts, LD client factory
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [ ] 02-02-PLAN.md — GET flag state (PROV-01) + variation/rule resolvers (PROV-03)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 02-03-PLAN.md — Semantic patch writes (PROV-02) + rate limiting
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 02-04-PLAN.md — nock HTTP integration tests + public exports
 
 ### Phase 3: Telemetry Adapter
 
@@ -146,7 +163,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data Layer | 6/6 | Complete   | 2026-06-22 |
-| 2. LaunchDarkly Adapter | 0/TBD | Not started | - |
+| 2. LaunchDarkly Adapter | 0/4 | Not started | - |
 | 3. Telemetry Adapter | 0/TBD | Not started | - |
 | 4. Promotion Engine | 0/TBD | Not started | - |
 | 5. REST API | 0/TBD | Not started | - |
