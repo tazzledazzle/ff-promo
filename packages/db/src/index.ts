@@ -1,2 +1,16 @@
-/** Database access layer — Prisma schema and repositories added in plan 02. */
-export const DB_PACKAGE = '@ff-promo/db';
+export { createPrismaClient } from './client.js';
+export {
+  ActorType,
+  AuditAction,
+  GateVerdict,
+  PromotionStatus,
+  Prisma,
+} from '../generated/client/index.js';
+export type {
+  AuditEvent,
+  GatePolicy,
+  GateResult,
+  Pipeline,
+  PromotionRun,
+  Stage,
+} from '../generated/client/index.js';
