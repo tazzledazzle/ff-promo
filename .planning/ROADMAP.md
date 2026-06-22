@@ -157,21 +157,21 @@ Plans:
   2. Operator can query promotion run status and gate evaluation history via REST API
   3. API responses include structured gate forensics (metric values, pass/fail, stage context) on pause events
 
-**Plans:** 0/4 plans complete
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 0**
 
-- [ ] 05-01-PLAN.md — Fastify scaffold, API contracts, vitest api project (D-10, D-11)
-- [ ] 05-02-PLAN.md — Extract `@ff-promo/promotion-control` + worker signal refactor (D-06, D-07)
+- [x] 05-01-PLAN.md — Fastify scaffold, API contracts, vitest api project (D-10, D-11)
+- [x] 05-02-PLAN.md — Extract `@ff-promo/promotion-control` + worker signal refactor (D-06, D-07)
 
 **Wave 1** *(blocked on Wave 0)*
 
-- [ ] 05-03-PLAN.md — Create/start/pause/resume/abort routes + actor/audit (API-01, SAFE-02)
+- [x] 05-03-PLAN.md — Create/start/pause/resume/abort routes + actor/audit (API-01, SAFE-02)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 05-04-PLAN.md — Status/gate history/forensics + OpenAPI + integration tests (API-02, SC-3)
+- [x] 05-04-PLAN.md — Status/gate history/forensics + OpenAPI + integration tests (API-02, SC-3)
 
 ### Phase 6: Operator Dashboard
 
@@ -233,7 +233,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. LaunchDarkly Adapter | 4/4 | Complete   | 2026-06-22 |
 | 3. Telemetry Adapter | 4/4 | Complete    | 2026-06-22 |
 | 4. Promotion Engine | 4/4 | Complete    | 2026-06-22 |
-| 5. REST API | 0/4 | Complete    | 2026-06-22 |
+| 5. REST API | 4/4 | Complete    | 2026-06-22 |
 | 6. Operator Dashboard | 4/4 | Complete    | 2026-06-22 |
 | 7. Guardrails & Self-Service | 0/TBD | Not started | - |
 
