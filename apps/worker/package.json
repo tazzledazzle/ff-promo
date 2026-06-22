@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "vitest run --config ../../vitest.config.ts --project worker",
+    "test": "pnpm -w exec vitest run --project worker",
     "lint": "biome check src",
     "dev": "tsx src/worker.ts"
   },
