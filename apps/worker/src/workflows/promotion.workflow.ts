@@ -29,10 +29,13 @@ export interface PromotionWorkflowInput {
 export async function promotionWorkflow(
   input: PromotionWorkflowInput,
 ): Promise<void> {
+  type RunStatus = 'active' | 'paused' | 'aborted' | 'completed';
   let currentStageIndex = 0;
-  let status: 'active' | 'paused' | 'aborted' | 'completed' = 'active';
+  let status: RunStatus = 'active';
   let isPaused = false;
   let gateAwaiting = false;
+
+  const hasAborted = (): boolean => status === 'aborted';
 
   wf.setHandler(statusQuery, () => ({ status, currentStageIndex, isPaused }));
 
@@ -107,9 +110,13 @@ export async function promotionWorkflow(
     displayName: input.actor.displayName,
   });
 
-  while (currentStageIndex < input.stageCount && status !== 'aborted') {
-    await wf.condition(() => !isPaused || status === 'aborted');
-    if (status === 'aborted') {
+  while (currentStageIndex < input.stageCount) {
+    if (hasAborted()) {
+      break;
+    }
+
+    await wf.condition(() => !isPaused || hasAborted());
+    if (hasAborted()) {
       break;
     }
 
@@ -133,8 +140,8 @@ export async function promotionWorkflow(
         promotionRunId: input.promotionRunId,
         status: 'paused',
       });
-      await wf.condition(() => !isPaused || status === 'aborted');
-      if (status === 'aborted') {
+      await wf.condition(() => !isPaused || hasAborted());
+      if (hasAborted()) {
         break;
       }
       continue;
@@ -158,7 +165,7 @@ export async function promotionWorkflow(
     });
   }
 
-  if (status !== 'aborted') {
+  if (!hasAborted()) {
     status = 'completed';
     await persistRunState({
       promotionRunId: input.promotionRunId,

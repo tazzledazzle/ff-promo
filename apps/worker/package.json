@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "node -e \"process.exit(0)\"",
+    "test": "vitest run",
     "lint": "biome check src",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx src/worker.ts"
   },
   "dependencies": {
     "@ff-promo/contracts": "workspace:*",
@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@temporalio/testing": "1.18.1",
-    "typescript": "~5.8.3"
+    "tsx": "^4.20.3",
+    "typescript": "~5.8.3",
+    "vitest": "4.1.9"
   }
 }

@@ -35,7 +35,7 @@ async function seedPromotionRun(stageCount = 3) {
 
   const db = createPrismaClient(dbUrl);
   const pipelineRepo = new PipelineRepository(db);
-  const environments = ['dev', 'staging', 'prod'];
+  const environments = ['dev', 'staging', 'prod'] as const;
 
   const pipeline = await pipelineRepo.create({
     name: `signals-test-${randomUUID()}`,
@@ -43,7 +43,7 @@ async function seedPromotionRun(stageCount = 3) {
     projectKey: 'default',
     stages: Array.from({ length: stageCount }, (_, orderIndex) => ({
       orderIndex,
-      environment: environments[orderIndex] ?? `env-${orderIndex}`,
+      environment: environments[orderIndex] ?? 'dev',
       displayName: environments[orderIndex] ?? `Stage ${orderIndex}`,
       gatePolicies: [
         {
