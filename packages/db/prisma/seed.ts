@@ -1,2 +1,6 @@
-/** Seed script — full implementation in plan 01-05. */
-export {};
+import { seed } from '../src/seed.js';
+
+seed().catch((error: unknown) => {
+  console.error('Seed failed:', error);
+  process.exit(1);
+});
