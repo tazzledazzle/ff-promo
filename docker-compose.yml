@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ffpromo
+      POSTGRES_PASSWORD: ffpromo
+      POSTGRES_DB: ffpromo
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  temporal:
+    image: temporalio/admin-tools:1.27.2
+    entrypoint:
+      - temporal
+      - server
+      - start-dev
+      - --ip
+      - 0.0.0.0
+      - --db-filename
+      - /tmp/temporal.db
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+
+volumes:
+  pgdata:
