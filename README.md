@@ -246,6 +246,82 @@ docker compose --profile dev up web
 pnpm exec vitest run --project web
 ```
 
+## Guardrails & Self-Service (Phase 7)
+
+Platform engineers configure multi-environment pipelines with per-stage SLO thresholds; developers self-serve promotions within guardrails enforced server-side.
+
+**Requirements satisfied:** PIPE-01, TELE-01, TELE-02, GRD-01–03, API-03, UI-04
+
+| API | Purpose |
+|-----|---------|
+| `POST /v1/pipelines` | Create pipeline with dev/staging/prod stages and gate policies |
+| `PATCH /v1/pipelines/:id` | Deactivate pipeline or update description |
+| `GET /v1/pipelines` | List all pipelines (active and inactive) |
+| `GET /v1/pipelines/:id` | Pipeline detail with gate policy thresholds |
+
+**Guardrail enforcement:** `GuardrailService.validatePromotionRequest` runs on `POST /v1/promotion-runs` and `POST /v1/promotion-runs/:id/start`. Wrong flag key or inactive pipeline returns **403**; structural violations return **422**.
+
+**Dashboard routes:**
+
+| Page | Purpose |
+|------|---------|
+| `/pipelines` | List pipelines with active/inactive badge (UI-04) |
+| `/pipelines/new` | Create pipeline with gate policy editors |
+| `/pipelines/[id]` | Read-only detail and deactivate |
+
+**Example — create pipeline via curl:**
+
+```bash
+curl -X POST http://localhost:3000/v1/pipelines \
+  -H 'Content-Type: application/json' \
+  -H 'X-API-Key: dev-key' \
+  -d '{
+    "name": "checkout-rollout",
+    "flagKey": "checkout-v2",
+    "projectKey": "default",
+    "actor": { "actorType": "user", "actorId": "platform" },
+    "stages": [
+      {
+        "orderIndex": 0,
+        "environment": "dev",
+        "displayName": "Development",
+        "gatePolicies": [
+          { "metricType": "error_rate", "threshold": 0.01, "serviceName": "demo-service" },
+          { "metricType": "latency_p95", "threshold": 500, "serviceName": "demo-service" }
+        ]
+      },
+      {
+        "orderIndex": 1,
+        "environment": "staging",
+        "displayName": "Staging",
+        "gatePolicies": [
+          { "metricType": "error_rate", "threshold": 0.01, "serviceName": "demo-service" },
+          { "metricType": "latency_p95", "threshold": 500, "serviceName": "demo-service" }
+        ]
+      },
+      {
+        "orderIndex": 2,
+        "environment": "prod",
+        "displayName": "Production",
+        "gatePolicies": [
+          { "metricType": "error_rate", "threshold": 0.01, "serviceName": "demo-service" },
+          { "metricType": "latency_p95", "threshold": 500, "serviceName": "demo-service" }
+        ]
+      }
+    ]
+  }'
+```
+
+**Deferred to v2:** GRD-04 RBAC/Better Auth, API-04 CLI, GRD-05/06 approval gates and templates.
+
+**Phase 7 tests:**
+
+```bash
+pnpm exec vitest run --project api guardrail pipelines guardrails
+pnpm exec vitest run --project web pipeline
+pnpm exec vitest run --project db pipeline.integration
+```
+
 ## Phase 1 Scope
 
 Phase 1 delivers the foundation only:

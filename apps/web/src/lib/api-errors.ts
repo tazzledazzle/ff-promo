@@ -12,3 +12,10 @@ export class ApiClientError extends Error {
 export function isConflictError(error: unknown): error is ApiClientError {
 	return error instanceof ApiClientError && error.status === 409;
 }
+
+export function isGuardrailError(error: unknown): error is ApiClientError {
+	return (
+		error instanceof ApiClientError &&
+		(error.status === 403 || error.status === 422)
+	);
+}

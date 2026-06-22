@@ -3,8 +3,11 @@ import type {
 	ControlActionRequest,
 	CreatePromotionRunRequest,
 	GateResultResponse,
+	PipelineCreateRequest,
 	PipelineDetailResponse,
 	PipelineListResponse,
+	PipelineResponse,
+	PipelineUpdateRequest,
 	PromotionRunListResponse,
 	PromotionRunResponse,
 	PromotionRunStatusResponse,
@@ -67,6 +70,27 @@ export function createApiClient(options: ApiClientOptions = {}) {
 
 		getPipeline(pipelineId: string) {
 			return request<PipelineDetailResponse>(`/v1/pipelines/${pipelineId}`);
+		},
+
+		createPipeline(body: PipelineCreateRequest) {
+			return request<PipelineResponse>('/v1/pipelines', {
+				method: 'POST',
+				body: JSON.stringify(body),
+			});
+		},
+
+		updatePipeline(pipelineId: string, body: PipelineUpdateRequest) {
+			return request<PipelineResponse>(`/v1/pipelines/${pipelineId}`, {
+				method: 'PATCH',
+				body: JSON.stringify(body),
+			});
+		},
+
+		deactivatePipeline(pipelineId: string, actor: Actor) {
+			return request<PipelineResponse>(`/v1/pipelines/${pipelineId}`, {
+				method: 'PATCH',
+				body: JSON.stringify({ isActive: false, actor }),
+			});
 		},
 
 		getPromotionRun(promotionRunId: string) {

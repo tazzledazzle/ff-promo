@@ -5,6 +5,7 @@ import type {
 	GateResultResponse,
 	PipelineDetailResponse,
 	PipelineListResponse,
+	PipelineResponse,
 	PromotionRunListItem,
 	PromotionRunResponse,
 	PromotionRunStatusResponse,
@@ -111,18 +112,48 @@ export const mockPipelineDetail: PipelineDetailResponse = {
 	name: 'Dev Pipeline',
 	flagKey: 'api-read-flag',
 	projectKey: 'default',
+	isActive: true,
+	version: 1,
 	stages: [
 		{
 			id: 'stage-1',
 			orderIndex: 0,
 			environment: 'dev',
 			displayName: 'Dev',
+			gatePolicies: [
+				{
+					id: 'gp-1',
+					metricType: 'error_rate',
+					threshold: 0.01,
+					serviceName: 'demo-service',
+				},
+				{
+					id: 'gp-2',
+					metricType: 'latency_p95',
+					threshold: 500,
+					serviceName: 'demo-service',
+				},
+			],
 		},
 		{
 			id: 'stage-2',
 			orderIndex: 1,
 			environment: 'staging',
 			displayName: 'Staging',
+			gatePolicies: [
+				{
+					id: 'gp-3',
+					metricType: 'error_rate',
+					threshold: 0.01,
+					serviceName: 'demo-service',
+				},
+				{
+					id: 'gp-4',
+					metricType: 'latency_p95',
+					threshold: 500,
+					serviceName: 'demo-service',
+				},
+			],
 		},
 	],
 };
@@ -133,10 +164,17 @@ export const mockPipelineList: PipelineListResponse = {
 			id: mockPipelineId,
 			name: 'Dev Pipeline',
 			flagKey: 'api-read-flag',
+			projectKey: 'default',
 			stageCount: 2,
+			isActive: true,
+			version: 1,
 		},
 	],
 };
+
+const pipelineStore = new Map<string, PipelineDetailResponse>([
+	[mockPipelineId, mockPipelineDetail],
+]);
 
 const runStore = new Map<string, PromotionRunResponse>([
 	[mockRunId, mockPausedRun],
@@ -173,8 +211,54 @@ export function handlers() {
 			return HttpResponse.json(mockPipelineList);
 		}),
 
-		http.get('/api/ff-promo/v1/pipelines/:id', () => {
-			return HttpResponse.json(mockPipelineDetail);
+		http.get('/api/ff-promo/v1/pipelines/:id', ({ params }) => {
+			const id = params.id as string;
+			const pipeline = pipelineStore.get(id) ?? mockPipelineDetail;
+			return HttpResponse.json({ ...pipeline, id });
+		}),
+
+		http.post('/api/ff-promo/v1/pipelines', async ({ request }) => {
+			const body = (await request.json()) as PipelineResponse & {
+				stages: Array<{ gatePolicies: unknown[] }>;
+			};
+			const invalidStage = body.stages?.some(
+				(stage) => (stage.gatePolicies?.length ?? 0) < 2,
+			);
+			if (invalidStage) {
+				return HttpResponse.json(
+					{
+						error: 'unprocessable_entity',
+						message: 'Each stage requires error_rate and latency_p95 policies',
+					},
+					{ status: 422 },
+				);
+			}
+			const pipeline: PipelineDetailResponse = {
+				id: 'pipeline-new',
+				name: body.name,
+				flagKey: body.flagKey,
+				projectKey: body.projectKey,
+				isActive: true,
+				version: 1,
+				stages: body.stages.map((stage, index) => ({
+					...stage,
+					id: `stage-new-${index}`,
+					gatePolicies: stage.gatePolicies.map((policy, policyIndex) => ({
+						...(policy as object),
+						id: `gp-new-${index}-${policyIndex}`,
+					})),
+				})),
+			};
+			pipelineStore.set(pipeline.id, pipeline);
+			return HttpResponse.json(pipeline, { status: 201 });
+		}),
+
+		http.patch('/api/ff-promo/v1/pipelines/:id', ({ params }) => {
+			const id = params.id as string;
+			const existing = pipelineStore.get(id) ?? mockPipelineDetail;
+			const updated = { ...existing, id, isActive: false };
+			pipelineStore.set(id, updated);
+			return HttpResponse.json(updated);
 		}),
 
 		http.post('/api/ff-promo/v1/promotion-runs', async ({ request }) => {

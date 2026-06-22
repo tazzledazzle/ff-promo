@@ -2,6 +2,7 @@ import type {
 	FlagState,
 	GatePolicyInput,
 	GateRunContext,
+	MetricType,
 	TargetingIntent,
 	VariationRef,
 } from '@ff-promo/contracts';
@@ -82,7 +83,7 @@ export function mapGatePolicies(
 	}>,
 ): GatePolicyInput[] {
 	return policies.map((policy) => ({
-		metricType: policy.metricType,
+		metricType: policy.metricType as MetricType,
 		threshold: policy.threshold,
 		serviceName: policy.serviceName,
 		comparisonMode: policy.comparisonMode ?? undefined,
