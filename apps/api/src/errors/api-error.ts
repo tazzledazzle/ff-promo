@@ -20,3 +20,11 @@ export function notFound(message: string) {
 export function unauthorized(message = 'Unauthorized') {
 	return new ApiError(401, message, 'unauthorized');
 }
+
+export function forbidden(message: string) {
+	return new ApiError(403, message, 'forbidden');
+}
+
+export function unprocessableEntity(message: string) {
+	return new ApiError(422, message, 'unprocessable_entity');
+}

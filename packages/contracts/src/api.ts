@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { GatePolicyResponseSchema } from './pipeline.js';
 import { ActorSchema } from './promotion-run.js';
 import { GateVerdictSchema } from './gate-result.js';
 import { PromotionStatusSchema } from './promotion-run.js';
@@ -113,11 +114,22 @@ export const PipelineListItemSchema = z.object({
 	id: z.string(),
 	name: z.string(),
 	flagKey: z.string(),
+	projectKey: z.string(),
 	stageCount: z.number().int(),
+	isActive: z.boolean(),
+	version: z.number().int(),
 });
 
 export const PipelineListResponseSchema = z.object({
 	pipelines: z.array(PipelineListItemSchema),
+});
+
+export const PipelineStageDetailSchema = z.object({
+	id: z.string(),
+	orderIndex: z.number().int(),
+	environment: z.string(),
+	displayName: z.string(),
+	gatePolicies: z.array(GatePolicyResponseSchema),
 });
 
 export const PipelineDetailResponseSchema = z.object({
@@ -125,14 +137,10 @@ export const PipelineDetailResponseSchema = z.object({
 	name: z.string(),
 	flagKey: z.string(),
 	projectKey: z.string(),
-	stages: z.array(
-		z.object({
-			id: z.string(),
-			orderIndex: z.number().int(),
-			environment: z.string(),
-			displayName: z.string(),
-		}),
-	),
+	description: z.string().nullable().optional(),
+	isActive: z.boolean(),
+	version: z.number().int(),
+	stages: z.array(PipelineStageDetailSchema),
 });
 
 export type GateForensics = z.infer<typeof GateForensicsSchema>;

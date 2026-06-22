@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { randomUUID } from "node:crypto";
 import { createPrismaClient } from "../client.js";
 import { PipelineRepository } from "../repositories/pipeline.repository.js";
+import { standardStages } from "./pipeline-fixtures.js";
 import {
 	getTestDatabaseUrl,
 	startTestDatabase,
@@ -27,44 +28,7 @@ describe("PipelineRepository integration", () => {
 			name: `dev-staging-prod-${randomUUID()}`,
 			flagKey: "checkout-v2",
 			projectKey: "default",
-			stages: [
-				{
-					orderIndex: 0,
-					environment: "dev",
-					displayName: "Development",
-					gatePolicies: [
-						{
-							metricType: "error_rate",
-							threshold: 0.01,
-							serviceName: "checkout-api",
-						},
-					],
-				},
-				{
-					orderIndex: 1,
-					environment: "staging",
-					displayName: "Staging",
-					gatePolicies: [
-						{
-							metricType: "error_rate",
-							threshold: 0.005,
-							serviceName: "checkout-api",
-						},
-					],
-				},
-				{
-					orderIndex: 2,
-					environment: "prod",
-					displayName: "Production",
-					gatePolicies: [
-						{
-							metricType: "latency_p95",
-							threshold: 500,
-							serviceName: "checkout-api",
-						},
-					],
-				},
-			],
+			stages: standardStages("checkout-api"),
 		});
 
 		expect(created.stages).toHaveLength(3);
@@ -76,7 +40,7 @@ describe("PipelineRepository integration", () => {
 			"staging",
 			"prod",
 		]);
-		expect(loaded!.stages[0]!.gatePolicies).toHaveLength(1);
+		expect(loaded!.stages[0]!.gatePolicies).toHaveLength(2);
 		expect(loaded!.stages[0]!.gatePolicies[0]!.metricType).toBe("error_rate");
 
 		await db.$disconnect();
@@ -96,13 +60,7 @@ describe("PipelineRepository integration", () => {
 					orderIndex: 0,
 					environment: "dev",
 					displayName: "Dev",
-					gatePolicies: [
-						{
-							metricType: "error_rate",
-							threshold: 0.01,
-							serviceName: "api",
-						},
-					],
+					gatePolicies: standardStages()[0]!.gatePolicies,
 				},
 			],
 		});
@@ -110,6 +68,72 @@ describe("PipelineRepository integration", () => {
 		const results = await repo.findByFlagKey(flagKey);
 		expect(results.length).toBe(1);
 		expect(results.every((p) => p.flagKey === flagKey)).toBe(true);
+
+		await db.$disconnect();
+	});
+
+	it("deactivate sets isActive false", async () => {
+		const db = createPrismaClient(getTestDatabaseUrl()!);
+		const repo = new PipelineRepository(db);
+
+		const created = await repo.create({
+			name: `deactivate-${randomUUID()}`,
+			flagKey: "deactivate-flag",
+			projectKey: "default",
+			stages: standardStages(),
+		});
+
+		const deactivated = await repo.deactivate(created.id);
+		expect(deactivated.isActive).toBe(false);
+		expect(deactivated.stages).toHaveLength(3);
+
+		await db.$disconnect();
+	});
+
+	it("listAll includes deactivated pipelines", async () => {
+		const db = createPrismaClient(getTestDatabaseUrl()!);
+		const repo = new PipelineRepository(db);
+		const name = `list-all-${randomUUID()}`;
+
+		const created = await repo.create({
+			name,
+			flagKey: `list-all-${randomUUID()}`,
+			projectKey: "default",
+			stages: standardStages(),
+		});
+		await repo.deactivate(created.id);
+
+		const all = await repo.listAll();
+		const item = all.find((p) => p.id === created.id);
+		expect(item).toBeDefined();
+		expect(item!.isActive).toBe(false);
+
+		await db.$disconnect();
+	});
+
+	it("resolveNextVersion increments after second create with same name", async () => {
+		const db = createPrismaClient(getTestDatabaseUrl()!);
+		const repo = new PipelineRepository(db);
+		const name = `version-bump-${randomUUID()}`;
+
+		const first = await repo.create({
+			name,
+			flagKey: `v1-${randomUUID()}`,
+			projectKey: "default",
+			stages: standardStages(),
+		});
+		expect(first.version).toBe(1);
+
+		const second = await repo.create({
+			name,
+			flagKey: `v2-${randomUUID()}`,
+			projectKey: "default",
+			stages: standardStages(),
+		});
+		expect(second.version).toBe(2);
+
+		const next = await repo.resolveNextVersion(name);
+		expect(next).toBe(3);
 
 		await db.$disconnect();
 	});
