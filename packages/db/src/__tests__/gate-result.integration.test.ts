@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { randomUUID } from "node:crypto";
 import { createPrismaClient } from "../client.js";
 import { GateResultRepository } from "../repositories/gate-result.repository.js";
 import { PipelineRepository } from "../repositories/pipeline.repository.js";
@@ -22,7 +23,7 @@ describe("GateResultRepository integration", () => {
 		const runRepo = new PromotionRunRepository(db);
 
 		const pipeline = await pipelineRepo.create({
-			name: "gate-result-pipeline",
+			name: `gate-result-pipeline-${randomUUID()}`,
 			flagKey: "gate-result-flag",
 			projectKey: "default",
 			stages: [

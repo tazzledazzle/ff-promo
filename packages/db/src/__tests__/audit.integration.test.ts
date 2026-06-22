@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { randomUUID } from "node:crypto";
 import { createPrismaClient } from "../client.js";
 import { AuditRepository } from "../repositories/audit.repository.js";
 import { GateResultRepository } from "../repositories/gate-result.repository.js";
@@ -23,7 +24,7 @@ describe("AuditRepository integration (SAFE-01)", () => {
 		const runRepo = new PromotionRunRepository(db);
 
 		const pipeline = await pipelineRepo.create({
-			name: "audit-pipeline",
+			name: `audit-pipeline-${randomUUID()}`,
 			flagKey: "audit-flag",
 			projectKey: "default",
 			stages: [

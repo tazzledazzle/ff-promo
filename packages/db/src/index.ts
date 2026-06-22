@@ -1,5 +1,8 @@
 export { createPrismaClient } from './client.js';
 export {
+  AuditRepository,
+  createRepositories,
+  GateResultRepository,
   PipelineRepository,
   PromotionRunRepository,
 } from './repositories/index.js';

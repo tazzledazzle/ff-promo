@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { randomUUID } from "node:crypto";
 import { createPrismaClient } from "../client.js";
 import { PipelineRepository } from "../repositories/pipeline.repository.js";
 import { PromotionRunRepository } from "../repositories/promotion-run.repository.js";
@@ -18,7 +19,7 @@ describe("PromotionRunRepository integration", () => {
 		const db = createPrismaClient(dbUrl);
 		const pipelineRepo = new PipelineRepository(db);
 		const pipeline = await pipelineRepo.create({
-			name: "run-test-pipeline",
+			name: `run-test-pipeline-${randomUUID()}`,
 			flagKey: "run-test-flag",
 			projectKey: "default",
 			stages: [

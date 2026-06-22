@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { randomUUID } from "node:crypto";
 import { createPrismaClient } from "../client.js";
 import { PipelineRepository } from "../repositories/pipeline.repository.js";
 import {
@@ -23,7 +24,7 @@ describe("PipelineRepository integration", () => {
 		const repo = new PipelineRepository(db);
 
 		const created = await repo.create({
-			name: "dev-staging-prod",
+			name: `dev-staging-prod-${randomUUID()}`,
 			flagKey: "checkout-v2",
 			projectKey: "default",
 			stages: [
@@ -85,9 +86,10 @@ describe("PipelineRepository integration", () => {
 		const db = createPrismaClient(getTestDatabaseUrl()!);
 		const repo = new PipelineRepository(db);
 
+		const flagKey = `unique-flag-key-${randomUUID()}`;
 		await repo.create({
-			name: "flag-key-lookup",
-			flagKey: "unique-flag-key",
+			name: `flag-key-lookup-${randomUUID()}`,
+			flagKey,
 			projectKey: "default",
 			stages: [
 				{
@@ -105,9 +107,9 @@ describe("PipelineRepository integration", () => {
 			],
 		});
 
-		const results = await repo.findByFlagKey("unique-flag-key");
-		expect(results.length).toBeGreaterThanOrEqual(1);
-		expect(results.every((p) => p.flagKey === "unique-flag-key")).toBe(true);
+		const results = await repo.findByFlagKey(flagKey);
+		expect(results.length).toBe(1);
+		expect(results.every((p) => p.flagKey === flagKey)).toBe(true);
 
 		await db.$disconnect();
 	});
