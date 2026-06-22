@@ -16,7 +16,7 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 - [x] **Phase 3: Telemetry Adapter** - Prometheus SLO evaluation and pre-flight health checks (completed 2026-06-22)
 - [x] **Phase 4: Promotion Engine** - Temporal pipeline orchestration with environment progression and emergency stop (completed 2026-06-22)
 - [x] **Phase 5: REST API** - Programmatic promotion control and status/history queries (completed 2026-06-22)
-- [ ] **Phase 6: Operator Dashboard** - Pipeline status, telemetry visualization, and promotion actions
+- [x] **Phase 6: Operator Dashboard** - Pipeline status, telemetry visualization, and promotion actions (completed 2026-06-22)
 - [ ] **Phase 7: Guardrails & Self-Service** - Platform configuration, server-side enforcement, developer self-service within bounds
 
 ## Phase Details
@@ -185,24 +185,24 @@ Plans:
   3. Operator can trigger promotion actions (start, pause, resume, abort) from the dashboard
   4. Operator can emergency-stop an in-flight promotion from the dashboard with confirmation
 
-**Plans:** 0/4 plans complete
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 0**
 
-- [ ] 06-01-PLAN.md — Next.js scaffold, list API endpoints, api-client, vitest web project (D-01–D-07, D-15, D-19)
+- [x] 06-01-PLAN.md — Next.js scaffold, list API endpoints, api-client, vitest web project (D-01–D-07, D-15, D-19)
 
 **Wave 1** *(blocked on Wave 0)*
 
-- [ ] 06-02-PLAN.md — Runs list page with status badges and TanStack Query (UI-01)
+- [x] 06-02-PLAN.md — Runs list page with status badges and TanStack Query (UI-01)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 06-03-PLAN.md — Run detail with gate forensics, audit, status-aware polling (UI-02)
+- [x] 06-03-PLAN.md — Run detail with gate forensics, audit, status-aware polling (UI-02)
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 06-04-PLAN.md — Control actions, abort confirmation, create run flow, tests + README (UI-03, SAFE-02)
+- [x] 06-04-PLAN.md — Control actions, abort confirmation, create run flow, tests + README (UI-03, SAFE-02)
 
 **UI hint**: yes
 
@@ -234,7 +234,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Telemetry Adapter | 4/4 | Complete    | 2026-06-22 |
 | 4. Promotion Engine | 4/4 | Complete    | 2026-06-22 |
 | 5. REST API | 0/4 | Complete    | 2026-06-22 |
-| 6. Operator Dashboard | 0/4 | Not started | - |
+| 6. Operator Dashboard | 4/4 | Complete    | 2026-06-22 |
 | 7. Guardrails & Self-Service | 0/TBD | Not started | - |
 
 ## Research Flags

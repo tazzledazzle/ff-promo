@@ -39,9 +39,9 @@
 
 ### Dashboard
 
-- [ ] **UI-01**: Operator can view active and historical promotion runs with current environment stage
-- [ ] **UI-02**: Operator can view telemetry gate status (pass/fail, metric values) per promotion run
-- [ ] **UI-03**: Operator can trigger promotion actions (start, pause, resume, abort) from dashboard
+- [x] **UI-01**: Operator can view active and historical promotion runs with current environment stage
+- [x] **UI-02**: Operator can view telemetry gate status (pass/fail, metric values) per promotion run
+- [x] **UI-03**: Operator can trigger promotion actions (start, pause, resume, abort) from dashboard
 - [ ] **UI-04**: Operator can configure guardrails and pipelines from dashboard
 
 ### Safety & Compliance
@@ -101,9 +101,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | SAFE-02 | Phase 4 | Complete |
 | API-01 | Phase 5 | Complete |
 | API-02 | Phase 5 | Complete |
-| UI-01 | Phase 6 | Pending |
-| UI-02 | Phase 6 | Pending |
-| UI-03 | Phase 6 | Pending |
+| UI-01 | Phase 6 | Complete |
+| UI-02 | Phase 6 | Complete |
+| UI-03 | Phase 6 | Complete |
 | PIPE-01 | Phase 7 | Pending |
 | TELE-01 | Phase 7 | Pending |
 | TELE-02 | Phase 7 | Pending |

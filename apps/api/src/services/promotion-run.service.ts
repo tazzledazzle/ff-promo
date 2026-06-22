@@ -1,4 +1,5 @@
-import type { Actor, PromotionRunListQuery, PromotionStatus } from '@ff-promo/contracts';
+import type { Actor, PromotionRunListQuery } from '@ff-promo/contracts';
+import type { PromotionStatus } from '@ff-promo/db';
 import type { Client } from '@temporalio/client';
 import {
 	queryPromotionStatus,
