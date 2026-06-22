@@ -32,5 +32,24 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
+  web:
+    profiles: [dev]
+    image: node:24-bookworm-slim
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    ports:
+      - "3001:3001"
+    environment:
+      API_URL: http://host.docker.internal:3000
+      NEXT_PUBLIC_API_URL: /api/ff-promo
+      NEXT_PUBLIC_DASHBOARD_ACTOR_ID: dashboard
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: >
+      sh -c "corepack enable pnpm &&
+      pnpm install &&
+      pnpm --filter @ff-promo/web dev --hostname 0.0.0.0"
+
 volumes:
   pgdata:

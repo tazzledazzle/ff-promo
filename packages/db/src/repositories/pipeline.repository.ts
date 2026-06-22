@@ -62,4 +62,16 @@ export class PipelineRepository {
       },
     });
   }
+
+  async listActive() {
+    return this.db.pipeline.findMany({
+      where: { isActive: true },
+      orderBy: { name: 'asc' },
+      include: {
+        stages: {
+          select: { id: true },
+        },
+      },
+    });
+  }
 }

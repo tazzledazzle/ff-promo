@@ -8,6 +8,7 @@ import type {
 	AuditEventResponse,
 	GateForensics,
 	GateResultResponse,
+	PromotionRunListItem,
 	PromotionRunResponse,
 } from '@ff-promo/contracts';
 
@@ -109,6 +110,33 @@ export function mapPromotionRun(run: PromotionRun): PromotionRunResponse {
 		currentStageIndex: run.currentStageIndex,
 		pauseReason: run.pauseReason,
 		temporalWorkflowId: run.temporalWorkflowId,
+		createdAt: run.createdAt.toISOString(),
+		updatedAt: run.updatedAt.toISOString(),
+	};
+}
+
+type RunWithPipeline = PromotionRun & {
+	pipeline: {
+		name: string;
+		stages: StageLike[];
+	};
+};
+
+export function mapPromotionRunListItem(run: RunWithPipeline): PromotionRunListItem {
+	const stage = run.pipeline.stages.find(
+		(item) => item.orderIndex === run.currentStageIndex,
+	);
+
+	return {
+		id: run.id,
+		status: run.status,
+		flagKey: run.flagKey,
+		pipelineId: run.pipelineId,
+		pipelineName: run.pipeline.name,
+		currentStageIndex: run.currentStageIndex,
+		currentEnvironment: stage?.environment,
+		currentStageDisplayName: stage?.displayName,
+		pauseReason: run.pauseReason,
 		createdAt: run.createdAt.toISOString(),
 		updatedAt: run.updatedAt.toISOString(),
 	};

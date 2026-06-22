@@ -4,12 +4,36 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "test": "node -e \"process.exit(0)\"",
+    "build": "next build",
+    "test": "pnpm -w exec vitest run --project web",
     "lint": "biome check src",
-    "dev": "tsx watch src/index.ts"
+    "dev": "next dev --port 3001"
+  },
+  "dependencies": {
+    "@ff-promo/contracts": "workspace:*",
+    "@radix-ui/react-alert-dialog": "^1.1.14",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-query": "5.101.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.525.0",
+    "next": "16.2.9",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "tailwind-merge": "^3.3.1",
+    "zod": "4.4.3"
   },
   "devDependencies": {
-    "typescript": "~5.8.3"
+    "@tailwindcss/postcss": "4.3.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "6.0.2",
+    "jsdom": "^26.1.0",
+    "msw": "^2.10.2",
+    "tailwindcss": "4.3.1",
+    "typescript": "~5.8.3",
+    "vitest": "4.1.9"
   }
 }

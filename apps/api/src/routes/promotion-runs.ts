@@ -4,6 +4,8 @@ import {
 	CreatePromotionRunRequestSchema,
 	ControlActionRequestSchema,
 	GateResultResponseSchema,
+	PromotionRunListQuerySchema,
+	PromotionRunListResponseSchema,
 	PromotionRunResponseSchema,
 	PromotionRunStatusResponseSchema,
 } from '@ff-promo/contracts';
@@ -27,6 +29,17 @@ export const promotionRunRoutes = (
 				const run = await service.createRun(request.body);
 				return reply.status(201).send(run);
 			},
+		);
+
+		app.get(
+			'/v1/promotion-runs',
+			{
+				schema: {
+					querystring: PromotionRunListQuerySchema,
+					response: { 200: PromotionRunListResponseSchema },
+				},
+			},
+			async (request) => service.listRuns(request.query),
 		);
 
 		app.post(

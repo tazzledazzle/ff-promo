@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,34230,o=>{"use strict";var t=o.i(35273);o.s(["dashboardActor",0,function(o){return{actorType:"user",actorId:o??(void 0!==t.default?t.default.env.NEXT_PUBLIC_DASHBOARD_ACTOR_ID:void 0)??"dashboard"}}])}]);

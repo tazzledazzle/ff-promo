@@ -78,4 +78,23 @@ export class PromotionRunRepository {
       where: { status },
     });
   }
+
+  async findRecent(input: { status?: PromotionStatus; limit?: number } = {}) {
+    const limit = input.limit ?? 50;
+
+    return this.db.promotionRun.findMany({
+      where: input.status ? { status: input.status } : undefined,
+      orderBy: { updatedAt: 'desc' },
+      take: limit,
+      include: {
+        pipeline: {
+          include: {
+            stages: {
+              orderBy: { orderIndex: 'asc' },
+            },
+          },
+        },
+      },
+    });
+  }
 }

@@ -1,4 +1,6 @@
 import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import path from "node:path";
 
 export default defineConfig({
 	test: {
@@ -18,6 +20,22 @@ export default defineConfig({
 					root: "./apps/api",
 					include: ["src/**/*.test.ts"],
 				},
+			},
+			{
+				extends: true,
+				test: {
+					name: "web",
+					root: "./apps/web",
+					environment: "jsdom",
+					setupFiles: ["./src/__tests__/setup.ts"],
+					include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
+				},
+				resolve: {
+					alias: {
+						"@": path.resolve(__dirname, "./apps/web/src"),
+					},
+				},
+				plugins: [react()],
 			},
 			{
 				extends: true,

@@ -1,5 +1,4 @@
-import type { Actor } from '@ff-promo/contracts';
-import type { PromotionStatus } from '@ff-promo/db';
+import type { Actor, PromotionRunListQuery, PromotionStatus } from '@ff-promo/contracts';
 import type { Client } from '@temporalio/client';
 import {
 	queryPromotionStatus,
@@ -13,6 +12,7 @@ import {
 	mapAuditEvent,
 	mapGateResult,
 	mapPromotionRun,
+	mapPromotionRunListItem,
 } from '../lib/forensics.js';
 
 export type PromotionRunServiceDeps = {
@@ -262,6 +262,21 @@ export function createPromotionRunService(deps: PromotionRunServiceDeps) {
 				}
 				const events = await repos.audit.findByRunId(promotionRunId);
 				return events.map(mapAuditEvent);
+			} finally {
+				await dispose();
+			}
+		},
+
+		async listRuns(query: PromotionRunListQuery) {
+			const { repos, dispose } = createRequestDb(deps.databaseUrl);
+			try {
+				const runs = await repos.promotionRun.findRecent({
+					status: query.status as PromotionStatus | undefined,
+					limit: query.limit,
+				});
+				return {
+					runs: runs.map(mapPromotionRunListItem),
+				};
 			} finally {
 				await dispose();
 			}

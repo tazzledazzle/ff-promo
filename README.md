@@ -206,6 +206,46 @@ pnpm --filter @ff-promo/api dev
 pnpm exec vitest run --project api
 ```
 
+## Operator Dashboard (Phase 6)
+
+Next.js dashboard for operators to list promotion runs, inspect gate forensics, and control promotions (start, pause, resume, abort with confirmation).
+
+**Run the dashboard** (requires API on port 3000):
+
+```bash
+pnpm --filter @ff-promo/api dev
+pnpm --filter @ff-promo/web dev
+```
+
+Open `http://localhost:3001`. Root `/` redirects to `/runs`.
+
+| Page | Purpose |
+|------|---------|
+| `/runs` | Active and historical promotion runs (UI-01) |
+| `/runs/new` | Create a pending run with pipeline picker (D-12) |
+| `/runs/[id]` | Run detail, gate forensics, audit trail, controls (UI-02, UI-03) |
+
+**BFF proxy:** Browser requests go to `/api/ff-promo/*` (Next.js Route Handler), which forwards to the Fastify API using server-side `API_URL` and `API_KEY`. The API key never ships to the client bundle.
+
+| Variable | Purpose |
+|----------|---------|
+| `API_URL` | Server-side upstream API base URL (default `http://localhost:3000`) |
+| `NEXT_PUBLIC_API_URL` | Browser API base path (default `/api/ff-promo`) |
+| `NEXT_PUBLIC_DASHBOARD_ACTOR_ID` | Actor ID sent on control mutations (default `dashboard`) |
+| `API_KEY` | Optional key injected by BFF as `X-API-Key` |
+
+**Optional Docker profile** (API must be running on the host):
+
+```bash
+docker compose --profile dev up web
+```
+
+**Dashboard tests** (MSW mocks — no live API required):
+
+```bash
+pnpm exec vitest run --project web
+```
+
 ## Phase 1 Scope
 
 Phase 1 delivers the foundation only:
@@ -215,7 +255,7 @@ Phase 1 delivers the foundation only:
 - Temporal workflow skeleton with stub activities
 - Docker Compose stack for local development
 
-**Not included yet:** CLI commands or dashboard UI. CLI ships alongside dashboard in Phase 6.
+**Not included yet:** CLI commands. CLI ships alongside dashboard in Phase 6.
 
 ## Project Layout
 
@@ -249,3 +289,6 @@ See `.env.example` for local defaults. Never commit secrets or real API keys.
 | `PROMETHEUS_BEARER_TOKEN` | Optional Prometheus auth token |
 | `PORT` | API HTTP port (default `3000`) |
 | `API_KEY` | Optional API key for `X-API-Key` header |
+| `API_URL` | Web BFF upstream API URL (server-only) |
+| `NEXT_PUBLIC_API_URL` | Dashboard client API base path |
+| `NEXT_PUBLIC_DASHBOARD_ACTOR_ID` | Dashboard actor ID for control actions |

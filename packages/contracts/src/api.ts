@@ -86,6 +86,55 @@ export const AuditEventResponseSchema = z.object({
 	occurredAt: z.string().datetime(),
 });
 
+export const PromotionRunListQuerySchema = z.object({
+	status: PromotionStatusSchema.optional(),
+	limit: z.coerce.number().int().min(1).max(100).optional().default(50),
+});
+
+export const PromotionRunListItemSchema = z.object({
+	id: z.string(),
+	status: PromotionStatusSchema,
+	flagKey: z.string(),
+	pipelineId: z.string(),
+	pipelineName: z.string().optional(),
+	currentStageIndex: z.number().int(),
+	currentEnvironment: z.string().optional(),
+	currentStageDisplayName: z.string().optional(),
+	pauseReason: z.string().nullable().optional(),
+	createdAt: z.string().datetime(),
+	updatedAt: z.string().datetime(),
+});
+
+export const PromotionRunListResponseSchema = z.object({
+	runs: z.array(PromotionRunListItemSchema),
+});
+
+export const PipelineListItemSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	flagKey: z.string(),
+	stageCount: z.number().int(),
+});
+
+export const PipelineListResponseSchema = z.object({
+	pipelines: z.array(PipelineListItemSchema),
+});
+
+export const PipelineDetailResponseSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	flagKey: z.string(),
+	projectKey: z.string(),
+	stages: z.array(
+		z.object({
+			id: z.string(),
+			orderIndex: z.number().int(),
+			environment: z.string(),
+			displayName: z.string(),
+		}),
+	),
+});
+
 export type GateForensics = z.infer<typeof GateForensicsSchema>;
 export type GateForensicsResult = z.infer<typeof GateForensicsResultSchema>;
 export type CreatePromotionRunRequest = z.infer<
@@ -98,3 +147,11 @@ export type PromotionRunStatusResponse = z.infer<
 >;
 export type GateResultResponse = z.infer<typeof GateResultResponseSchema>;
 export type AuditEventResponse = z.infer<typeof AuditEventResponseSchema>;
+export type PromotionRunListQuery = z.infer<typeof PromotionRunListQuerySchema>;
+export type PromotionRunListItem = z.infer<typeof PromotionRunListItemSchema>;
+export type PromotionRunListResponse = z.infer<
+	typeof PromotionRunListResponseSchema
+>;
+export type PipelineListItem = z.infer<typeof PipelineListItemSchema>;
+export type PipelineListResponse = z.infer<typeof PipelineListResponseSchema>;
+export type PipelineDetailResponse = z.infer<typeof PipelineDetailResponseSchema>;
