@@ -127,7 +127,24 @@ Plans:
   3. System holds at the current environment when telemetry gates fail (no silent advancement)
   4. Operator can emergency-stop an in-flight promotion immediately
 
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+**Wave 0**
+
+- [ ] 04-01-PLAN.md — worker lib foundation: clients, load-run-context, stage-targeting mappers (D-09, D-20)
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [ ] 04-02-PLAN.md — runPreflight + applyStageTargeting activities with nock tests (TELE-04, PROV-02)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 04-03-PLAN.md — real evaluateGate + workflow extension with abort guards (PIPE-03, PIPE-04, D-17)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 04-04-PLAN.md — startPromotionRun helper + E2E integration tests + SAFE-02 abort (PIPE-02, SAFE-02)
 
 ### Phase 5: REST API
 
