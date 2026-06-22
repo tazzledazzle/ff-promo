@@ -6,8 +6,12 @@ import {
 	signalPromotionRun,
 	startPromotionRun,
 } from '@ff-promo/promotion-control';
-import { conflict, notFound } from '../errors/api-error.js';
+import { conflict, forbidden, notFound, unprocessableEntity } from '../errors/api-error.js';
 import { createRequestDb } from '../lib/db.js';
+import {
+	throwOnViolation,
+	validatePromotionRequest,
+} from './guardrail.service.js';
 import {
 	buildGateForensics,
 	mapAuditEvent,
@@ -46,9 +50,19 @@ export function createPromotionRunService(deps: PromotionRunServiceDeps) {
 			const { repos, dispose } = createRequestDb(deps.databaseUrl);
 			try {
 				const pipeline = await repos.pipeline.findById(input.pipelineId);
-				if (!pipeline) {
+				const violations = validatePromotionRequest({
+					pipeline,
+					flagKey: input.flagKey,
+				});
+				if (violations[0]?.code === 'pipeline_not_found') {
 					throw notFound(`Pipeline ${input.pipelineId} not found`);
 				}
+				throwOnViolation(violations, {
+					notFound,
+					forbidden,
+					unprocessableEntity,
+				});
+
 				const run = await repos.promotionRun.create({
 					pipelineId: input.pipelineId,
 					flagKey: input.flagKey,
@@ -74,6 +88,15 @@ export function createPromotionRunService(deps: PromotionRunServiceDeps) {
 						`Promotion run must be pending to start (current: ${existing.status})`,
 					);
 				}
+
+				const pipeline = await repos.pipeline.findById(existing.pipelineId);
+				throwOnViolation(
+					validatePromotionRequest({
+						pipeline,
+						flagKey: existing.flagKey,
+					}),
+					{ notFound, forbidden, unprocessableEntity },
+				);
 
 				await repos.audit.append({
 					promotionRunId: input.promotionRunId,

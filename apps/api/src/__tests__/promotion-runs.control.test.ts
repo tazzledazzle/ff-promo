@@ -13,6 +13,7 @@ import {
 import { buildApp } from '../app.js';
 import { createPromotionRunService } from '../services/promotion-run.service.js';
 import { createMockTemporalClient } from './helpers/mock-temporal.js';
+import { standardStages } from './helpers/pipeline-test-fixtures.js';
 
 async function seedPipeline() {
 	const db = createPrismaClient(getTestDatabaseUrl()!);
@@ -21,20 +22,7 @@ async function seedPipeline() {
 		name: `api-control-${randomUUID()}`,
 		flagKey: 'api-control-flag',
 		projectKey: 'default',
-		stages: [
-			{
-				orderIndex: 0,
-				environment: 'dev',
-				displayName: 'Dev',
-				gatePolicies: [
-					{
-						metricType: 'error_rate',
-						threshold: 0.01,
-						serviceName: 'api',
-					},
-				],
-			},
-		],
+		stages: [standardStages('api')[0]!],
 	});
 	await db.$disconnect();
 	return pipeline;

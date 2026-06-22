@@ -14,7 +14,7 @@ const api = createApiClient({
 
 export default function NewRunPage() {
 	const router = useRouter();
-	const { pipelines, isLoading, isError, error } = usePipelines();
+	const { pipelines, isLoading, isError, error } = usePipelines({ activeOnly: true });
 	const [pipelineId, setPipelineId] = useState('');
 	const [flagKey, setFlagKey] = useState('');
 	const [submitError, setSubmitError] = useState<string | null>(null);

@@ -14,6 +14,7 @@ import {
 import { buildApp } from '../app.js';
 import { createPromotionRunService } from '../services/promotion-run.service.js';
 import { createMockTemporalClient } from './helpers/mock-temporal.js';
+import { standardStages } from './helpers/pipeline-test-fixtures.js';
 
 async function seedPausedRunWithGateFail() {
 	const db = createPrismaClient(getTestDatabaseUrl()!);
@@ -22,20 +23,7 @@ async function seedPausedRunWithGateFail() {
 		name: `api-read-${randomUUID()}`,
 		flagKey: 'api-read-flag',
 		projectKey: 'default',
-		stages: [
-			{
-				orderIndex: 0,
-				environment: 'dev',
-				displayName: 'Dev',
-				gatePolicies: [
-					{
-						metricType: 'error_rate',
-						threshold: 0.01,
-						serviceName: 'api',
-					},
-				],
-			},
-		],
+		stages: [standardStages('api')[0]!],
 	});
 	const stage = pipeline.stages[0]!;
 	const runRepo = new PromotionRunRepository(db);

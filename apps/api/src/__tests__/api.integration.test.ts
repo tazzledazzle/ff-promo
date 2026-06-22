@@ -13,6 +13,7 @@ import {
 import { buildApp } from '../app.js';
 import { createPromotionRunService } from '../services/promotion-run.service.js';
 import { createMockTemporalClient } from './helpers/mock-temporal.js';
+import { standardStages } from './helpers/pipeline-test-fixtures.js';
 
 describe('API integration', () => {
 	const { client: temporalClient, start } = createMockTemporalClient();
@@ -51,20 +52,7 @@ describe('API integration', () => {
 			name: `api-e2e-${randomUUID()}`,
 			flagKey: 'api-e2e-flag',
 			projectKey: 'default',
-			stages: [
-				{
-					orderIndex: 0,
-					environment: 'dev',
-					displayName: 'Dev',
-					gatePolicies: [
-						{
-							metricType: 'error_rate',
-							threshold: 0.01,
-							serviceName: 'api',
-						},
-					],
-				},
-			],
+			stages: [standardStages('api')[0]!],
 		});
 		await db.$disconnect();
 
