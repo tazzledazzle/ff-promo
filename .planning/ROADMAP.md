@@ -11,7 +11,7 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Foundation & Data Layer** - Domain models, PostgreSQL persistence, audit trail, Temporal workflow scaffolding
+- [x] **Phase 1: Foundation & Data Layer** - Domain models, PostgreSQL persistence, audit trail, Temporal workflow scaffolding (completed 2026-06-22)
 - [ ] **Phase 2: LaunchDarkly Adapter** - Read flag state, semantic patch writes, per-environment variation ID resolution
 - [ ] **Phase 3: Telemetry Adapter** - Prometheus SLO evaluation and pre-flight health checks
 - [ ] **Phase 4: Promotion Engine** - Temporal pipeline orchestration with environment progression and emergency stop
@@ -33,25 +33,25 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
   3. Operator can query audit history for a promotion run via the data layer
   4. Temporal worker can start a durable promotion workflow skeleton tied to a persisted run record
 
-**Plans:** 6 plans
+**Plans:** 6/6 plans complete
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Monorepo workspace and app/package shells (pnpm, turbo)
-- [ ] 01-06-PLAN.md — Docker Compose, Vitest harness, testcontainers setup (D-12, D-15)
-- [ ] 01-02-PLAN.md — Prisma schema, Zod contracts, [BLOCKING] initial migration
+- [x] 01-01-PLAN.md — Monorepo workspace and app/package shells (pnpm, turbo)
+- [x] 01-06-PLAN.md — Docker Compose, Vitest harness, testcontainers setup (D-12, D-15)
+- [x] 01-02-PLAN.md — Prisma schema, Zod contracts, [BLOCKING] initial migration
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-03-PLAN.md — Repositories, append-only audit, SAFE-01 integration tests
+- [x] 01-03-PLAN.md — Repositories, append-only audit, SAFE-01 integration tests
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-04-PLAN.md — Temporal worker FSM skeleton with signals and stub activities
+- [x] 01-04-PLAN.md — Temporal worker FSM skeleton with signals and stub activities
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 01-05-PLAN.md — Seed data, smoke tests, README dev workflow
+- [x] 01-05-PLAN.md — Seed data, smoke tests, README dev workflow
 
 ### Phase 2: LaunchDarkly Adapter
 
@@ -145,7 +145,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Data Layer | 0/5 | Not started | - |
+| 1. Foundation & Data Layer | 6/6 | Complete   | 2026-06-22 |
 | 2. LaunchDarkly Adapter | 0/TBD | Not started | - |
 | 3. Telemetry Adapter | 0/TBD | Not started | - |
 | 4. Promotion Engine | 0/TBD | Not started | - |
