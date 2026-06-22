@@ -219,7 +219,25 @@ Plans:
   4. Developer can trigger promotion within configured guardrail bounds without platform team intervention
   5. System rejects out-of-bounds promotion requests server-side
 
-**Plans**: TBD
+**Plans:** 4 plans in 4 waves
+
+Plans:
+**Wave 0**
+
+- [ ] 07-01-PLAN.md — Contracts, GuardrailService, repository extensions, api-error helpers (GRD-01, GRD-03 logic, D-03, D-04, D-21)
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [ ] 07-02-PLAN.md — POST/PATCH pipelines API, PipelineConfigAudit, pipeline service, API tests (PIPE-01, TELE-01, TELE-02, GRD-01, API-03, D-05–D-07, D-12)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 07-03-PLAN.md — Wire guardrails into createRun/startRun, rejection tests, active-only picker (GRD-02, GRD-03, D-08, D-09, D-19)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 07-04-PLAN.md — Dashboard /pipelines pages, form, MSW tests, README Phase 7 (UI-04, D-13–D-16, D-20)
+
 **UI hint**: yes
 
 ## Progress
@@ -235,7 +253,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Promotion Engine | 4/4 | Complete    | 2026-06-22 |
 | 5. REST API | 4/4 | Complete    | 2026-06-22 |
 | 6. Operator Dashboard | 4/4 | Complete    | 2026-06-22 |
-| 7. Guardrails & Self-Service | 0/TBD | Not started | - |
+| 7. Guardrails & Self-Service | 0/4 | Not started | - |
 
 ## Research Flags
 
