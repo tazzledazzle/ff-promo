@@ -1,0 +1,23 @@
+{
+  "key": "workflow-test-flag",
+  "variations": [
+    { "_id": "var-off", "value": false, "name": "Off" },
+    { "_id": "var-on", "value": true, "name": "On" }
+  ],
+  "environments": {
+    "dev": {
+      "on": true,
+      "rules": [],
+      "fallthrough": {
+        "rollout": {
+          "variations": [
+            { "variation": 1, "weight": 50000 },
+            { "variation": 0, "weight": 50000 }
+          ]
+        }
+      },
+      "offVariation": 0,
+      "targets": []
+    }
+  }
+}

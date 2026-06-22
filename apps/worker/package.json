@@ -7,11 +7,14 @@
     "build": "tsc",
     "test": "pnpm -w exec vitest run --project worker",
     "lint": "biome check src",
-    "dev": "tsx src/worker.ts"
+    "dev": "tsx src/worker.ts",
+    "start-run": "tsx src/scripts/start-run.ts"
   },
   "dependencies": {
     "@ff-promo/contracts": "workspace:*",
     "@ff-promo/db": "workspace:*",
+    "@ff-promo/ld-adapter": "workspace:*",
+    "@ff-promo/telemetry": "workspace:*",
     "@temporalio/activity": "1.18.1",
     "@temporalio/client": "1.18.1",
     "@temporalio/worker": "1.18.1",
@@ -19,6 +22,7 @@
   },
   "devDependencies": {
     "@temporalio/testing": "1.18.1",
+    "nock": "14.0.15",
     "tsx": "^4.20.3",
     "typescript": "~5.8.3",
     "vitest": "4.1.9"

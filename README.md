@@ -134,6 +134,33 @@ Optional manual validation with a local Prometheus:
 docker compose --profile prometheus up -d
 ```
 
+## Promotion Engine (Phase 4)
+
+The Temporal worker orchestrates promotion runs: pre-flight checks, LaunchDarkly targeting per stage, and telemetry gate evaluation.
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | PostgreSQL for run state, gate results, audit trail |
+| `TEMPORAL_ADDRESS` | Temporal server gRPC address |
+| `TEMPORAL_TASK_QUEUE` | Worker task queue (default `promotion`) |
+| `LD_ACCESS_TOKEN` | LaunchDarkly token for stage targeting activities |
+| `LD_BASE_URL` | LaunchDarkly API base URL |
+| `PROMETHEUS_BASE_URL` | Prometheus URL for gate evaluation |
+
+**Start a pending promotion run** (worker helper — REST API deferred to Phase 5):
+
+```bash
+pnpm --filter @ff-promo/worker start-run <promotionRunId>
+```
+
+**Worker tests** (CI uses nock — no live LD or Prometheus required):
+
+```bash
+pnpm exec vitest run --project worker
+```
+
+Per-stage flow: `runPreflight` (once) → `applyStageTargeting` → `evaluateGate` → advance index on pass; gate fail pauses with `pauseReason`; `abortSignal` stops immediately.
+
 ## Phase 1 Scope
 
 Phase 1 delivers the foundation only:
@@ -143,7 +170,7 @@ Phase 1 delivers the foundation only:
 - Temporal workflow skeleton with stub activities
 - Docker Compose stack for local development
 
-**Not included yet:** REST API endpoints, CLI commands, or dashboard UI. Temporal worker LD/telemetry activities ship in Phase 4.
+**Not included yet:** REST API endpoints, CLI commands, or dashboard UI. REST API and CLI ship in Phase 5.
 
 ## Project Layout
 

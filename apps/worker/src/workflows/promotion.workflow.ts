@@ -9,9 +9,13 @@ import {
   statusQuery,
 } from './signals.js';
 
-const { persistRunState, recordAuditEvent, evaluateGate } = wf.proxyActivities<
-  typeof activities
->({
+const {
+  persistRunState,
+  recordAuditEvent,
+  evaluateGate,
+  runPreflight,
+  applyStageTargeting,
+} = wf.proxyActivities<typeof activities>({
   startToCloseTimeout: '30 seconds',
   retry: { maximumAttempts: 3 },
 });
@@ -110,6 +114,18 @@ export async function promotionWorkflow(
     displayName: input.actor.displayName,
   });
 
+  const preflight = await runPreflight({
+    promotionRunId: input.promotionRunId,
+  });
+  if (preflight.status === 'fail') {
+    status = 'aborted';
+    await persistRunState({
+      promotionRunId: input.promotionRunId,
+      status: 'aborted',
+    });
+    return;
+  }
+
   while (currentStageIndex < input.stageCount) {
     if (hasAborted()) {
       break;
@@ -128,9 +144,24 @@ export async function promotionWorkflow(
       metadata: { stageIndex: currentStageIndex },
     });
 
+    if (hasAborted()) {
+      break;
+    }
+
+    const targeting = await applyStageTargeting({
+      promotionRunId: input.promotionRunId,
+      stageIndex: currentStageIndex,
+    });
+
+    if (hasAborted()) {
+      break;
+    }
+
     const gateResult = await evaluateGate({
       promotionRunId: input.promotionRunId,
       stageIndex: currentStageIndex,
+      treatmentVariationId: targeting.treatmentVariationId,
+      controlVariationId: targeting.controlVariationId,
     });
 
     if (gateResult.verdict === 'fail') {
@@ -139,6 +170,7 @@ export async function promotionWorkflow(
       await persistRunState({
         promotionRunId: input.promotionRunId,
         status: 'paused',
+        pauseReason: gateResult.pauseReason,
       });
       await wf.condition(() => !isPaused || hasAborted());
       if (hasAborted()) {
@@ -161,7 +193,7 @@ export async function promotionWorkflow(
       actorType: 'system',
       actorId: 'workflow',
       metadata: { stageIndex: currentStageIndex },
-      gateResultId: gateResult.gateResultId,
+      gateResultId: gateResult.gateResultIds[0],
     });
   }
 
