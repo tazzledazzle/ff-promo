@@ -1,0 +1,5 @@
+{
+  "code": "rate_limited",
+  "message": "Too many requests",
+  "id": "test-429-id"
+}

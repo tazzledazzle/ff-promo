@@ -1,0 +1,17 @@
+{
+  "key": "multivariate-flag",
+  "variations": [
+    { "_id": "var-a", "value": "control", "name": "Control" },
+    { "_id": "var-b", "value": "treatment", "name": "Treatment" },
+    { "_id": "var-c", "value": "variant-c", "name": "Variant C" }
+  ],
+  "environments": {
+    "production": {
+      "on": true,
+      "rules": [],
+      "fallthrough": { "variation": 0 },
+      "offVariation": 0,
+      "targets": []
+    }
+  }
+}
