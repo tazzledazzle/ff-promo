@@ -107,7 +107,7 @@ describe("GateResultRepository integration", () => {
 			promotionRunId,
 			stageId,
 			verdict: "fail",
-			metricType: "p95_latency_ms",
+			metricType: "latency_p95",
 			observedValue: 600,
 			threshold: 500,
 			metadata: { order: "second" },

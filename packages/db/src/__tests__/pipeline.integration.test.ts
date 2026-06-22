@@ -58,7 +58,7 @@ describe("PipelineRepository integration", () => {
 					displayName: "Production",
 					gatePolicies: [
 						{
-							metricType: "p95_latency_ms",
+							metricType: "latency_p95",
 							threshold: 500,
 							serviceName: "checkout-api",
 						},

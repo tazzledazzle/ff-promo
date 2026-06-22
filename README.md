@@ -1,6 +1,6 @@
 # Feature Flag Promotion System (ff-promo)
 
-Production-grade orchestration for feature flag promotion across environments (dev → staging → prod) with telemetry-gated progression. Phase 1 establishes persistence, audit infrastructure, and a Temporal workflow skeleton.
+Production-grade orchestration for feature flag promotion across environments (dev → staging → prod) with telemetry-gated progression. Phase 1 establishes persistence, audit infrastructure, and a Temporal workflow skeleton. Phase 2 adds the LaunchDarkly REST adapter. Phase 3 adds the Prometheus telemetry adapter.
 
 ## Prerequisites
 
@@ -86,6 +86,54 @@ Run worker workflow tests:
 pnpm exec vitest run --project worker
 ```
 
+Run LaunchDarkly adapter tests (uses nock — no live LD account required):
+
+```bash
+pnpm exec vitest run --project ld-adapter
+```
+
+Run telemetry adapter tests (uses nock — no live Prometheus required):
+
+```bash
+pnpm exec vitest run --project telemetry
+```
+
+## LaunchDarkly Adapter (`@ff-promo/ld-adapter`)
+
+Phase 2 package for reading flag state and applying semantic-patch targeting writes.
+
+| Variable | Purpose |
+|----------|---------|
+| `LD_ACCESS_TOKEN` | LaunchDarkly personal or service access token |
+| `LD_BASE_URL` | API base URL (`https://app.launchdarkly.com`; use `https://app.eu.launchdarkly.com` for EU) |
+| `LD_API_VERSION` | REST API version header (default `20240415`) |
+| `LD_PROJECT_KEY` | Default project key for local scripts |
+
+CI tests mock HTTP with **nock** — no live LaunchDarkly credentials required.
+
+## Telemetry Adapter (`@ff-promo/telemetry`)
+
+Phase 3 package for SLO gate evaluation and pre-flight health checks against Prometheus.
+
+| Variable | Purpose |
+|----------|---------|
+| `PROMETHEUS_BASE_URL` | Prometheus server base URL (default `http://localhost:9090`) |
+| `PROMETHEUS_BEARER_TOKEN` | Optional bearer token for authenticated Prometheus |
+
+CI tests mock HTTP with **nock** — no live Prometheus required.
+
+**Metric label contract** (instrumented apps must expose):
+
+- `service`, `ld_flag_key`, `ld_variation_id`, `ld_context_kind=user`
+- `http_requests_total` with `status` label for error-rate gates
+- `http_request_duration_seconds_bucket` for latency p95 gates
+
+Optional manual validation with a local Prometheus:
+
+```bash
+docker compose --profile prometheus up -d
+```
+
 ## Phase 1 Scope
 
 Phase 1 delivers the foundation only:
@@ -95,7 +143,7 @@ Phase 1 delivers the foundation only:
 - Temporal workflow skeleton with stub activities
 - Docker Compose stack for local development
 
-**Not included yet:** LaunchDarkly API integration, Prometheus/PromQL telemetry gates, REST API endpoints, CLI commands, or dashboard UI. Those ship in later phases.
+**Not included yet:** REST API endpoints, CLI commands, or dashboard UI. Temporal worker LD/telemetry activities ship in Phase 4.
 
 ## Project Layout
 
@@ -106,8 +154,10 @@ apps/
   web/      # Dashboard shell (Phase 6)
   cli/      # CLI shell (Phase 5)
 packages/
-  contracts/  # Shared Zod schemas
-  db/         # Prisma schema, repositories, seed
+  contracts/   # Shared Zod schemas
+  db/          # Prisma schema, repositories, seed
+  ld-adapter/  # LaunchDarkly REST adapter (Phase 2)
+  telemetry/   # Prometheus telemetry adapter (Phase 3)
 ```
 
 ## Environment Variables
@@ -119,3 +169,8 @@ See `.env.example` for local defaults. Never commit secrets or real API keys.
 | `DATABASE_URL` | PostgreSQL connection for app data |
 | `TEMPORAL_ADDRESS` | Temporal server gRPC address |
 | `TEMPORAL_TASK_QUEUE` | Worker task queue name |
+| `LD_ACCESS_TOKEN` | LaunchDarkly API token (adapter writes) |
+| `LD_BASE_URL` | LaunchDarkly API base URL |
+| `LD_API_VERSION` | LaunchDarkly API version header |
+| `PROMETHEUS_BASE_URL` | Prometheus server URL for telemetry gates |
+| `PROMETHEUS_BEARER_TOKEN` | Optional Prometheus auth token |

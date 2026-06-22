@@ -1,0 +1,26 @@
+{
+  "name": "@ff-promo/telemetry",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "pnpm -w exec vitest run --project telemetry",
+    "lint": "biome check src"
+  },
+  "dependencies": {
+    "@ff-promo/contracts": "workspace:*",
+    "p-retry": "8.0.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "nock": "14.0.15",
+    "typescript": "~5.8.3"
+  }
+}

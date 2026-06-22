@@ -24,5 +24,13 @@ services:
       - "7233:7233"
       - "8233:8233"
 
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    profiles: [prometheus]
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
 volumes:
   pgdata:

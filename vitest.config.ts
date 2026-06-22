@@ -19,6 +19,22 @@ export default defineConfig({
 					include: ["src/**/*.test.ts"],
 				},
 			},
+			{
+				extends: true,
+				test: {
+					name: "ld-adapter",
+					root: "./packages/ld-adapter",
+					include: ["src/**/*.test.ts"],
+				},
+			},
+			{
+				extends: true,
+				test: {
+					name: "telemetry",
+					root: "./packages/telemetry",
+					include: ["src/**/*.test.ts"],
+				},
+			},
 		],
 	},
 });
