@@ -12,7 +12,7 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Foundation & Data Layer** - Domain models, PostgreSQL persistence, audit trail, Temporal workflow scaffolding (completed 2026-06-22)
-- [ ] **Phase 2: LaunchDarkly Adapter** - Read flag state, semantic patch writes, per-environment variation ID resolution
+- [x] **Phase 2: LaunchDarkly Adapter** - Read flag state, semantic patch writes, per-environment variation ID resolution (completed 2026-06-22)
 - [ ] **Phase 3: Telemetry Adapter** - Prometheus SLO evaluation and pre-flight health checks
 - [ ] **Phase 4: Promotion Engine** - Temporal pipeline orchestration with environment progression and emergency stop
 - [ ] **Phase 5: REST API** - Programmatic promotion control and status/history queries
@@ -65,24 +65,24 @@ Plans:
   3. System resolves correct variation IDs per environment before any promotion write
   4. System handles LaunchDarkly rate limits without corrupting flag state
 
-**Plans:** 4 plans
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 0**
 
-- [ ] 02-01-PLAN.md — ld-adapter scaffold, contracts, LD client factory
+- [x] 02-01-PLAN.md — ld-adapter scaffold, contracts, LD client factory
 
 **Wave 1** *(blocked on Wave 0)*
 
-- [ ] 02-02-PLAN.md — GET flag state (PROV-01) + variation/rule resolvers (PROV-03)
+- [x] 02-02-PLAN.md — GET flag state (PROV-01) + variation/rule resolvers (PROV-03)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 02-03-PLAN.md — Semantic patch writes (PROV-02) + rate limiting
+- [x] 02-03-PLAN.md — Semantic patch writes (PROV-02) + rate limiting
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 02-04-PLAN.md — nock HTTP integration tests + public exports
+- [x] 02-04-PLAN.md — nock HTTP integration tests + public exports
 
 ### Phase 3: Telemetry Adapter
 
@@ -96,7 +96,24 @@ Plans:
   3. Operator receives pre-flight health check results before promotion starts (metric flow, minimum sample size, context kind alignment)
   4. System blocks promotion start when pre-flight health checks fail
 
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+**Wave 0**
+
+- [ ] 03-01-PLAN.md — telemetry scaffold, contracts, Prometheus client factory (D-14, D-15)
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [ ] 03-02-PLAN.md — Built-in PromQL builders + fail-closed response parser (TELE-03, D-04, D-06)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 03-03-PLAN.md — Gate evaluation, stage gates, pre-flight health checks (TELE-03, TELE-04)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 03-04-PLAN.md — nock HTTP integration tests + public exports + optional Prometheus profile (TELE-03, TELE-04)
 
 ### Phase 4: Promotion Engine
 
@@ -163,8 +180,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data Layer | 6/6 | Complete   | 2026-06-22 |
-| 2. LaunchDarkly Adapter | 0/4 | Not started | - |
-| 3. Telemetry Adapter | 0/TBD | Not started | - |
+| 2. LaunchDarkly Adapter | 4/4 | Complete   | 2026-06-22 |
+| 3. Telemetry Adapter | 0/4 | Not started | - |
 | 4. Promotion Engine | 0/TBD | Not started | - |
 | 5. REST API | 0/TBD | Not started | - |
 | 6. Operator Dashboard | 0/TBD | Not started | - |
