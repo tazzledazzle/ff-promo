@@ -13,36 +13,36 @@
 
 ### Promotion Pipeline
 
-- [ ] **PIPE-01**: Platform engineer defines multi-environment promotion pipeline (dev → staging → prod)
+- [x] **PIPE-01**: Platform engineer defines multi-environment promotion pipeline (dev → staging → prod)
 - [x] **PIPE-02**: Developer can start a promotion run for a flag through the defined pipeline
 - [x] **PIPE-03**: System advances flag to next environment only when telemetry gates pass for current stage
 - [x] **PIPE-04**: System blocks advancement when telemetry gates fail (holds at current environment)
 
 ### Telemetry Gates
 
-- [ ] **TELE-01**: Platform engineer configures error rate SLO threshold per pipeline stage
-- [ ] **TELE-02**: Platform engineer configures latency (p95) SLO threshold per pipeline stage
+- [x] **TELE-01**: Platform engineer configures error rate SLO threshold per pipeline stage
+- [x] **TELE-02**: Platform engineer configures latency (p95) SLO threshold per pipeline stage
 - [x] **TELE-03**: System evaluates SLO gates against Prometheus metrics for the target service
 - [x] **TELE-04**: System runs pre-flight health checks before promotion starts (metric flow, minimum sample size, context kind alignment)
 
 ### Guardrails & Access
 
-- [ ] **GRD-01**: Platform engineer configures guardrails (SLO thresholds, allowed environments, promotion policies)
-- [ ] **GRD-02**: Developer can trigger promotion within configured guardrail bounds without platform team intervention
-- [ ] **GRD-03**: System enforces guardrails server-side (rejects out-of-bounds promotion requests)
+- [x] **GRD-01**: Platform engineer configures guardrails (SLO thresholds, allowed environments, promotion policies)
+- [x] **GRD-02**: Developer can trigger promotion within configured guardrail bounds without platform team intervention
+- [x] **GRD-03**: System enforces guardrails server-side (rejects out-of-bounds promotion requests)
 
 ### API
 
 - [x] **API-01**: Operator can create, start, pause, resume, and abort promotion runs via REST API
 - [x] **API-02**: Operator can query promotion run status and gate evaluation history via REST API
-- [ ] **API-03**: Platform engineer can configure pipelines and guardrails via REST API
+- [x] **API-03**: Platform engineer can configure pipelines and guardrails via REST API
 
 ### Dashboard
 
 - [x] **UI-01**: Operator can view active and historical promotion runs with current environment stage
 - [x] **UI-02**: Operator can view telemetry gate status (pass/fail, metric values) per promotion run
 - [x] **UI-03**: Operator can trigger promotion actions (start, pause, resume, abort) from dashboard
-- [ ] **UI-04**: Operator can configure guardrails and pipelines from dashboard
+- [x] **UI-04**: Operator can configure guardrails and pipelines from dashboard
 
 ### Safety & Compliance
 
@@ -104,14 +104,14 @@ Deferred to future release. Tracked but not in current roadmap.
 | UI-01 | Phase 6 | Complete |
 | UI-02 | Phase 6 | Complete |
 | UI-03 | Phase 6 | Complete |
-| PIPE-01 | Phase 7 | Pending |
-| TELE-01 | Phase 7 | Pending |
-| TELE-02 | Phase 7 | Pending |
-| GRD-01 | Phase 7 | Pending |
-| GRD-02 | Phase 7 | Pending |
-| GRD-03 | Phase 7 | Pending |
-| API-03 | Phase 7 | Pending |
-| UI-04 | Phase 7 | Pending |
+| PIPE-01 | Phase 7 | Complete |
+| TELE-01 | Phase 7 | Complete |
+| TELE-02 | Phase 7 | Complete |
+| GRD-01 | Phase 7 | Complete |
+| GRD-02 | Phase 7 | Complete |
+| GRD-03 | Phase 7 | Complete |
+| API-03 | Phase 7 | Complete |
+| UI-04 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 23 total
