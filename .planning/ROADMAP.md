@@ -182,7 +182,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Foundation & Data Layer | 6/6 | Complete   | 2026-06-22 |
 | 2. LaunchDarkly Adapter | 4/4 | Complete   | 2026-06-22 |
 | 3. Telemetry Adapter | 4/4 | Complete    | 2026-06-22 |
-| 4. Promotion Engine | 0/TBD | Not started | - |
+| 4. Promotion Engine | 0/4 | Planned | - |
 | 5. REST API | 0/TBD | Not started | - |
 | 6. Operator Dashboard | 0/TBD | Not started | - |
 | 7. Guardrails & Self-Service | 0/TBD | Not started | - |
