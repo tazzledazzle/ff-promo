@@ -33,8 +33,8 @@
 
 ### API
 
-- [ ] **API-01**: Operator can create, start, pause, resume, and abort promotion runs via REST API
-- [ ] **API-02**: Operator can query promotion run status and gate evaluation history via REST API
+- [x] **API-01**: Operator can create, start, pause, resume, and abort promotion runs via REST API
+- [x] **API-02**: Operator can query promotion run status and gate evaluation history via REST API
 - [ ] **API-03**: Platform engineer can configure pipelines and guardrails via REST API
 
 ### Dashboard
@@ -99,8 +99,8 @@ Deferred to future release. Tracked but not in current roadmap.
 | PIPE-03 | Phase 4 | Complete |
 | PIPE-04 | Phase 4 | Complete |
 | SAFE-02 | Phase 4 | Complete |
-| API-01 | Phase 5 | Pending |
-| API-02 | Phase 5 | Pending |
+| API-01 | Phase 5 | Complete |
+| API-02 | Phase 5 | Complete |
 | UI-01 | Phase 6 | Pending |
 | UI-02 | Phase 6 | Pending |
 | UI-03 | Phase 6 | Pending |

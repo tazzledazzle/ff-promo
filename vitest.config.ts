@@ -14,6 +14,14 @@ export default defineConfig({
 			{
 				extends: true,
 				test: {
+					name: "api",
+					root: "./apps/api",
+					include: ["src/**/*.test.ts"],
+				},
+			},
+			{
+				extends: true,
+				test: {
 					name: "worker",
 					root: "./apps/worker",
 					include: ["src/**/*.test.ts"],

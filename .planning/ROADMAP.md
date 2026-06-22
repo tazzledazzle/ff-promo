@@ -15,7 +15,7 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 - [x] **Phase 2: LaunchDarkly Adapter** - Read flag state, semantic patch writes, per-environment variation ID resolution (completed 2026-06-22)
 - [x] **Phase 3: Telemetry Adapter** - Prometheus SLO evaluation and pre-flight health checks (completed 2026-06-22)
 - [x] **Phase 4: Promotion Engine** - Temporal pipeline orchestration with environment progression and emergency stop (completed 2026-06-22)
-- [ ] **Phase 5: REST API** - Programmatic promotion control and status/history queries
+- [x] **Phase 5: REST API** - Programmatic promotion control and status/history queries (completed 2026-06-22)
 - [ ] **Phase 6: Operator Dashboard** - Pipeline status, telemetry visualization, and promotion actions
 - [ ] **Phase 7: Guardrails & Self-Service** - Platform configuration, server-side enforcement, developer self-service within bounds
 
@@ -157,7 +157,7 @@ Plans:
   2. Operator can query promotion run status and gate evaluation history via REST API
   3. API responses include structured gate forensics (metric values, pass/fail, stage context) on pause events
 
-**Plans:** 4 plans
+**Plans:** 0/4 plans complete
 
 Plans:
 **Wave 0**
@@ -214,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. LaunchDarkly Adapter | 4/4 | Complete   | 2026-06-22 |
 | 3. Telemetry Adapter | 4/4 | Complete    | 2026-06-22 |
 | 4. Promotion Engine | 4/4 | Complete    | 2026-06-22 |
-| 5. REST API | 0/TBD | Not started | - |
+| 5. REST API | 0/4 | Complete    | 2026-06-22 |
 | 6. Operator Dashboard | 0/TBD | Not started | - |
 | 7. Guardrails & Self-Service | 0/TBD | Not started | - |
 

@@ -147,9 +147,16 @@ The Temporal worker orchestrates promotion runs: pre-flight checks, LaunchDarkly
 | `LD_BASE_URL` | LaunchDarkly API base URL |
 | `PROMETHEUS_BASE_URL` | Prometheus URL for gate evaluation |
 
-**Start a pending promotion run** (worker helper — REST API deferred to Phase 5):
+**Start a pending promotion run** (CLI or REST API):
 
 ```bash
+# REST API (Phase 5)
+pnpm --filter @ff-promo/api dev
+curl -X POST http://localhost:3000/v1/promotion-runs/:id/start \
+  -H 'Content-Type: application/json' \
+  -d '{"actor":{"actorType":"user","actorId":"you"}}'
+
+# Worker helper (same promotion-control package)
 pnpm --filter @ff-promo/worker start-run <promotionRunId>
 ```
 
@@ -161,6 +168,44 @@ pnpm exec vitest run --project worker
 
 Per-stage flow: `runPreflight` (once) → `applyStageTargeting` → `evaluateGate` → advance index on pass; gate fail pauses with `pauseReason`; `abortSignal` stops immediately.
 
+## REST API (Phase 5)
+
+Fastify REST API for promotion run control and read endpoints under `/v1/promotion-runs`.
+
+| Variable | Purpose |
+|----------|---------|
+| `PORT` | HTTP listen port (default `3000`) |
+| `DATABASE_URL` | PostgreSQL for run state, gate results, audit trail |
+| `TEMPORAL_ADDRESS` | Temporal server gRPC address |
+| `TEMPORAL_TASK_QUEUE` | Worker task queue (default `promotion`) |
+| `API_KEY` | Optional `X-API-Key` for authenticated requests |
+
+**Run the API:**
+
+```bash
+pnpm --filter @ff-promo/api dev
+```
+
+**OpenAPI docs:** `http://localhost:3000/documentation`
+
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /v1/promotion-runs` | Create pending run (API-01) |
+| `POST /v1/promotion-runs/:id/start` | Start workflow |
+| `POST /v1/promotion-runs/:id/pause` | Pause active run |
+| `POST /v1/promotion-runs/:id/resume` | Resume paused run |
+| `POST /v1/promotion-runs/:id/abort` | Abort in-flight run (SAFE-02) |
+| `GET /v1/promotion-runs/:id` | Status + gate forensics when paused (API-02, SC-3) |
+| `GET /v1/promotion-runs/:id/gate-results` | Gate evaluation history |
+| `GET /v1/promotion-runs/:id/audit-events` | Audit trail |
+| `GET /v1/pipelines/:id` | Pipeline definition read |
+
+**API tests** (integration tests use testcontainers PostgreSQL; Temporal client mocked):
+
+```bash
+pnpm exec vitest run --project api
+```
+
 ## Phase 1 Scope
 
 Phase 1 delivers the foundation only:
@@ -170,21 +215,22 @@ Phase 1 delivers the foundation only:
 - Temporal workflow skeleton with stub activities
 - Docker Compose stack for local development
 
-**Not included yet:** REST API endpoints, CLI commands, or dashboard UI. REST API and CLI ship in Phase 5.
+**Not included yet:** CLI commands or dashboard UI. CLI ships alongside dashboard in Phase 6.
 
 ## Project Layout
 
 ```
 apps/
-  api/      # REST API shell (Phase 5)
+  api/      # Fastify REST API (Phase 5)
   worker/   # Temporal worker + promotion workflow
   web/      # Dashboard shell (Phase 6)
-  cli/      # CLI shell (Phase 5)
+  cli/      # CLI shell (Phase 6)
 packages/
-  contracts/   # Shared Zod schemas
-  db/          # Prisma schema, repositories, seed
-  ld-adapter/  # LaunchDarkly REST adapter (Phase 2)
-  telemetry/   # Prometheus telemetry adapter (Phase 3)
+  contracts/          # Shared Zod schemas
+  db/                 # Prisma schema, repositories, seed
+  ld-adapter/         # LaunchDarkly REST adapter (Phase 2)
+  telemetry/          # Prometheus telemetry adapter (Phase 3)
+  promotion-control/  # Shared Temporal start/signal helpers (Phase 5)
 ```
 
 ## Environment Variables
@@ -201,3 +247,5 @@ See `.env.example` for local defaults. Never commit secrets or real API keys.
 | `LD_API_VERSION` | LaunchDarkly API version header |
 | `PROMETHEUS_BASE_URL` | Prometheus server URL for telemetry gates |
 | `PROMETHEUS_BEARER_TOKEN` | Optional Prometheus auth token |
+| `PORT` | API HTTP port (default `3000`) |
+| `API_KEY` | Optional API key for `X-API-Key` header |
