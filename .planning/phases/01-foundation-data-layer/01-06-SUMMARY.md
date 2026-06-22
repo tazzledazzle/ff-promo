@@ -68,7 +68,7 @@ Each task was committed atomically:
 2. **Task 2: Docker Compose stack per D-12** - `02a299b` (feat)
 3. **Task 3: Vitest harness and testcontainers setup helper** - `3728a3b` (feat)
 
-**Plan metadata:** pending (docs commit)
+**Plan metadata:** `a140f8d` (docs: complete plan)
 
 ## Files Created/Modified
 
