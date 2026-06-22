@@ -475,19 +475,19 @@ function resolveVariationId(
 | A3 | Optional LD sandbox project available for manual verification | Environment Availability | CI relies on nock fixtures only |
 | A4 | Promotion v1 targets fallthrough percentage rollout (not rule-specific rollouts) | Architecture | Need `updateRuleVariationOrRollout` if pipelines target custom rules |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Which rollout surface does v1 target — fallthrough only or a named rule?**
+1. **Which rollout surface does v1 target — fallthrough only or a named rule?** — **RESOLVED**
    - What we know: Most canary patterns use fallthrough; custom rules need `ruleId` per env.
-   - Recommendation: v1 adapter supports fallthrough + optional `ruleRef` resolver; pipeline config selects mode in Phase 4.
+   - Decision: v1 adapter supports fallthrough (default) + optional `ruleRef` resolver when `rollout.mode` is `rule`; pipeline config selects mode in Phase 4. Locked in contracts `RolloutIntentSchema` and plan 02-03 applyTargeting.
 
-2. **EU/Federal LD base URL?**
+2. **EU/Federal LD base URL?** — **RESOLVED**
    - What we know: Commercial default `https://app.launchdarkly.com`; EU `https://app.eu.launchdarkly.com`; Federal `https://app.launchdarkly.us` [CITED: launchdarkly.com/docs/api].
-   - Recommendation: `LD_BASE_URL` env var on adapter; default commercial.
+   - Decision: `LD_BASE_URL` env var on adapter with default commercial; overridable via `LaunchDarklyClientConfig.baseUrl`. Locked in plan 02-01 client factory and `.env.example`.
 
-3. **Approval-required environments (405)?**
+3. **Approval-required environments (405)?** — **RESOLVED**
    - What we know: PATCH fails with 405 when env requires approvals [CITED: patch-feature-flag docs].
-   - Recommendation: Map 405 to typed `ApprovalRequiredError`; defer approval-request flow to v2.
+   - Decision: Map 405 to typed `ApprovalRequiredError`; defer approval-request workflow to v2. Locked in plan 02-01 error hierarchy and plan 02-03 rate-limited client.
 
 ## Environment Availability
 
