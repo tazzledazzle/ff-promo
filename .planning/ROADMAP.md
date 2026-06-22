@@ -157,7 +157,21 @@ Plans:
   2. Operator can query promotion run status and gate evaluation history via REST API
   3. API responses include structured gate forensics (metric values, pass/fail, stage context) on pause events
 
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+**Wave 0**
+
+- [ ] 05-01-PLAN.md — Fastify scaffold, API contracts, vitest api project (D-10, D-11)
+- [ ] 05-02-PLAN.md — Extract `@ff-promo/promotion-control` + worker signal refactor (D-06, D-07)
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [ ] 05-03-PLAN.md — Create/start/pause/resume/abort routes + actor/audit (API-01, SAFE-02)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 05-04-PLAN.md — Status/gate history/forensics + OpenAPI + integration tests (API-02, SC-3)
 
 ### Phase 6: Operator Dashboard
 

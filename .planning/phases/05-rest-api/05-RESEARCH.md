@@ -534,20 +534,16 @@ Four plans in three waves — matches Phase 4 granularity and dependency order.
 | A3 | Phase 5 adds `run_created` audit action | REST Route Design | Low — may reuse existing actions only; verify audit enum |
 | A4 | Full E2E API tests mock Temporal, not TestWorkflowEnvironment | Integration Tests | Medium — optional second test tier with real Temporal for confidence |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `POST /v1/promotion-runs` combine create+start in one call?**
-   - What we know: Worker helper separates create (repo) from start; roadmap lists both capabilities.
-   - What's unclear: Whether operators want atomic "create and start" for CLI ergonomics.
-   - Recommendation: Keep separate endpoints (explicit state machine); add `?start=true` query param only if discuss-phase requests it.
+   - **RESOLVED:** No — separate endpoints per D-01. Create returns `pending`; `/start` transitions to `active` and starts workflow.
 
 2. **List endpoint (`GET /v1/promotion-runs`)?**
-   - What we know: API-02 mentions status query, not list; UI-01 in Phase 6 needs list.
-   - Recommendation: Defer list to Phase 6 unless dashboard planning blocks — add filter by `status` then.
+   - **RESOLVED:** Defer to Phase 6 (UI-01). Phase 5 delivers single-run GET only.
 
 3. **Audit action for API create?**
-   - What we know: `AuditActionSchema` has no `run_created` [VERIFIED: packages/contracts/src/audit.ts].
-   - Recommendation: Add `run_created` to enum + migration in Wave 1, or append create audit only on `start` — planner should pick one and stay consistent with SAFE-01.
+   - **RESOLVED:** Audit on `start` only with request actor (D-15). No new `run_created` enum in v1 — create is a DB row without audit milestone until workflow starts.
 
 ## Environment Availability
 
