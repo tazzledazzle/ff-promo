@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "vitest run",
+    "test": "vitest run --config ../../vitest.config.ts --project worker",
     "lint": "biome check src",
     "dev": "tsx src/worker.ts"
   },

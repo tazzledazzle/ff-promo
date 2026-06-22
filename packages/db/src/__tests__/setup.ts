@@ -53,3 +53,16 @@ export async function stopTestDatabase(): Promise<void> {
 export function getTestDatabaseUrl(): string | undefined {
 	return connectionString;
 }
+
+export async function runSeed(connectionString?: string): Promise<void> {
+	const url =
+		connectionString ?? getTestDatabaseUrl() ?? process.env.DATABASE_URL;
+	if (!url) {
+		throw new Error(
+			"runSeed requires a connection string or active test database",
+		);
+	}
+	process.env.DATABASE_URL = url;
+	const { seed } = await import("../seed.js");
+	await seed(url);
+}
