@@ -177,14 +177,33 @@ Plans:
 
 **Goal**: Operators monitor promotion health and control runs from a web interface
 **Depends on**: Phase 5
-**Requirements**: UI-01, UI-02, UI-03
+**Requirements**: UI-01, UI-02, UI-03, SAFE-02
 **Success Criteria** (what must be TRUE):
 
   1. Operator can view active and historical promotion runs with current environment stage
   2. Operator can view telemetry gate status (pass/fail, metric values) per promotion run
   3. Operator can trigger promotion actions (start, pause, resume, abort) from the dashboard
+  4. Operator can emergency-stop an in-flight promotion from the dashboard with confirmation
 
-**Plans**: TBD
+**Plans:** 0/4 plans complete
+
+Plans:
+**Wave 0**
+
+- [ ] 06-01-PLAN.md — Next.js scaffold, list API endpoints, api-client, vitest web project (D-01–D-07, D-15, D-19)
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [ ] 06-02-PLAN.md — Runs list page with status badges and TanStack Query (UI-01)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 06-03-PLAN.md — Run detail with gate forensics, audit, status-aware polling (UI-02)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 06-04-PLAN.md — Control actions, abort confirmation, create run flow, tests + README (UI-03, SAFE-02)
+
 **UI hint**: yes
 
 ### Phase 7: Guardrails & Self-Service
@@ -215,7 +234,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Telemetry Adapter | 4/4 | Complete    | 2026-06-22 |
 | 4. Promotion Engine | 4/4 | Complete    | 2026-06-22 |
 | 5. REST API | 0/4 | Complete    | 2026-06-22 |
-| 6. Operator Dashboard | 0/TBD | Not started | - |
+| 6. Operator Dashboard | 0/4 | Not started | - |
 | 7. Guardrails & Self-Service | 0/TBD | Not started | - |
 
 ## Research Flags
