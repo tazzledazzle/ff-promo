@@ -22,8 +22,8 @@
 
 - [ ] **TELE-01**: Platform engineer configures error rate SLO threshold per pipeline stage
 - [ ] **TELE-02**: Platform engineer configures latency (p95) SLO threshold per pipeline stage
-- [ ] **TELE-03**: System evaluates SLO gates against Prometheus metrics for the target service
-- [ ] **TELE-04**: System runs pre-flight health checks before promotion starts (metric flow, minimum sample size, context kind alignment)
+- [x] **TELE-03**: System evaluates SLO gates against Prometheus metrics for the target service
+- [x] **TELE-04**: System runs pre-flight health checks before promotion starts (metric flow, minimum sample size, context kind alignment)
 
 ### Guardrails & Access
 
@@ -93,8 +93,8 @@ Deferred to future release. Tracked but not in current roadmap.
 | PROV-01 | Phase 2 | Pending |
 | PROV-02 | Phase 2 | Pending |
 | PROV-03 | Phase 2 | Pending |
-| TELE-03 | Phase 3 | Pending |
-| TELE-04 | Phase 3 | Pending |
+| TELE-03 | Phase 3 | Complete |
+| TELE-04 | Phase 3 | Complete |
 | PIPE-02 | Phase 4 | Pending |
 | PIPE-03 | Phase 4 | Pending |
 | PIPE-04 | Phase 4 | Pending |
