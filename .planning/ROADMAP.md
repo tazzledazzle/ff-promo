@@ -14,7 +14,7 @@ Build a telemetry-gated feature flag promotion orchestrator in horizontal layers
 - [x] **Phase 1: Foundation & Data Layer** - Domain models, PostgreSQL persistence, audit trail, Temporal workflow scaffolding (completed 2026-06-22)
 - [x] **Phase 2: LaunchDarkly Adapter** - Read flag state, semantic patch writes, per-environment variation ID resolution (completed 2026-06-22)
 - [x] **Phase 3: Telemetry Adapter** - Prometheus SLO evaluation and pre-flight health checks (completed 2026-06-22)
-- [ ] **Phase 4: Promotion Engine** - Temporal pipeline orchestration with environment progression and emergency stop
+- [x] **Phase 4: Promotion Engine** - Temporal pipeline orchestration with environment progression and emergency stop (completed 2026-06-22)
 - [ ] **Phase 5: REST API** - Programmatic promotion control and status/history queries
 - [ ] **Phase 6: Operator Dashboard** - Pipeline status, telemetry visualization, and promotion actions
 - [ ] **Phase 7: Guardrails & Self-Service** - Platform configuration, server-side enforcement, developer self-service within bounds
@@ -127,24 +127,24 @@ Plans:
   3. System holds at the current environment when telemetry gates fail (no silent advancement)
   4. Operator can emergency-stop an in-flight promotion immediately
 
-**Plans:** 4 plans
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 0**
 
-- [ ] 04-01-PLAN.md — worker lib foundation: clients, load-run-context, stage-targeting mappers (D-09, D-20)
+- [x] 04-01-PLAN.md — worker lib foundation: clients, load-run-context, stage-targeting mappers (D-09, D-20)
 
 **Wave 1** *(blocked on Wave 0)*
 
-- [ ] 04-02-PLAN.md — runPreflight + applyStageTargeting activities with nock tests (TELE-04, PROV-02)
+- [x] 04-02-PLAN.md — runPreflight + applyStageTargeting activities with nock tests (TELE-04, PROV-02)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 04-03-PLAN.md — real evaluateGate + workflow extension with abort guards (PIPE-03, PIPE-04, D-17)
+- [x] 04-03-PLAN.md — real evaluateGate + workflow extension with abort guards (PIPE-03, PIPE-04, D-17)
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 04-04-PLAN.md — startPromotionRun helper + E2E integration tests + SAFE-02 abort (PIPE-02, SAFE-02)
+- [x] 04-04-PLAN.md — startPromotionRun helper + E2E integration tests + SAFE-02 abort (PIPE-02, SAFE-02)
 
 ### Phase 5: REST API
 
@@ -199,7 +199,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Foundation & Data Layer | 6/6 | Complete   | 2026-06-22 |
 | 2. LaunchDarkly Adapter | 4/4 | Complete   | 2026-06-22 |
 | 3. Telemetry Adapter | 4/4 | Complete    | 2026-06-22 |
-| 4. Promotion Engine | 0/4 | Planned | - |
+| 4. Promotion Engine | 4/4 | Complete    | 2026-06-22 |
 | 5. REST API | 0/TBD | Not started | - |
 | 6. Operator Dashboard | 0/TBD | Not started | - |
 | 7. Guardrails & Self-Service | 0/TBD | Not started | - |

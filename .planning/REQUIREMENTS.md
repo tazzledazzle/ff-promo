@@ -14,9 +14,9 @@
 ### Promotion Pipeline
 
 - [ ] **PIPE-01**: Platform engineer defines multi-environment promotion pipeline (dev → staging → prod)
-- [ ] **PIPE-02**: Developer can start a promotion run for a flag through the defined pipeline
-- [ ] **PIPE-03**: System advances flag to next environment only when telemetry gates pass for current stage
-- [ ] **PIPE-04**: System blocks advancement when telemetry gates fail (holds at current environment)
+- [x] **PIPE-02**: Developer can start a promotion run for a flag through the defined pipeline
+- [x] **PIPE-03**: System advances flag to next environment only when telemetry gates pass for current stage
+- [x] **PIPE-04**: System blocks advancement when telemetry gates fail (holds at current environment)
 
 ### Telemetry Gates
 
@@ -47,7 +47,7 @@
 ### Safety & Compliance
 
 - [ ] **SAFE-01**: System records audit trail for all promotion events (actor, action, timestamp, gate results)
-- [ ] **SAFE-02**: Operator can emergency-stop an in-flight promotion immediately via API or dashboard
+- [x] **SAFE-02**: Operator can emergency-stop an in-flight promotion immediately via API or dashboard
 
 ## v2 Requirements
 
@@ -95,10 +95,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | PROV-03 | Phase 2 | Pending |
 | TELE-03 | Phase 3 | Complete |
 | TELE-04 | Phase 3 | Complete |
-| PIPE-02 | Phase 4 | Pending |
-| PIPE-03 | Phase 4 | Pending |
-| PIPE-04 | Phase 4 | Pending |
-| SAFE-02 | Phase 4 | Pending |
+| PIPE-02 | Phase 4 | Complete |
+| PIPE-03 | Phase 4 | Complete |
+| PIPE-04 | Phase 4 | Complete |
+| SAFE-02 | Phase 4 | Complete |
 | API-01 | Phase 5 | Pending |
 | API-02 | Phase 5 | Pending |
 | UI-01 | Phase 6 | Pending |
