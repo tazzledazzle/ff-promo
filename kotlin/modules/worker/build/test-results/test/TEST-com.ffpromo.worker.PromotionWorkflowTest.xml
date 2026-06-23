@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ffpromo.worker.PromotionWorkflowTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-22T23:47:45" hostname="Terences-MacBook-Pro-2.local" time="1.57">
+<testsuite name="com.ffpromo.worker.PromotionWorkflowTest" tests="3" skipped="0" failures="1" errors="0" timestamp="2026-06-23T00:28:56" hostname="Terences-MacBook-Pro-2.local" time="1.647">
   <properties/>
-  <testcase name="abort signal stops workflow()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.75"/>
-  <testcase name="workflow completes stage loop when gates pass()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.306"/>
-  <testcase name="pause and resume signal handling smoke test()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.512"/>
+  <testcase name="abort signal stops workflow()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.317">
+    <failure message="io.temporal.client.WorkflowNotFoundException: workflowId='run-abort', runId='', workflowType='PromotionWorkflow'" type="io.temporal.client.WorkflowNotFoundException">io.temporal.client.WorkflowNotFoundException: workflowId='run-abort', runId='', workflowType='PromotionWorkflow'
+	at app//io.temporal.client.WorkflowStubImpl.throwAsWorkflowFailureException(WorkflowStubImpl.java:596)
+	at app//io.temporal.client.WorkflowStubImpl.signal(WorkflowStubImpl.java:94)
+	at app//io.temporal.testing.TimeLockingInterceptor$TimeLockingWorkflowStub.signal(TimeLockingInterceptor.java:69)
+	at app//io.temporal.client.WorkflowInvocationHandler$SyncWorkflowInvocationHandler.signalWorkflow(WorkflowInvocationHandler.java:312)
+	at app//io.temporal.client.WorkflowInvocationHandler$SyncWorkflowInvocationHandler.invoke(WorkflowInvocationHandler.java:287)
+	at app//io.temporal.client.WorkflowInvocationHandler.invoke(WorkflowInvocationHandler.java:191)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy33.abort(Unknown Source)
+	at app//com.ffpromo.worker.PromotionWorkflowTest.abort signal stops workflow(PromotionWorkflowTest.kt:102)
+	at java.base@21.0.7/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.7/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.7/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: io.grpc.StatusRuntimeException: NOT_FOUND: Completed workflow
+	at app//io.grpc.stub.ClientCalls.toStatusRuntimeException(ClientCalls.java:271)
+	at app//io.grpc.stub.ClientCalls.getUnchecked(ClientCalls.java:252)
+	at app//io.grpc.stub.ClientCalls.blockingUnaryCall(ClientCalls.java:165)
+	at app//io.temporal.api.workflowservice.v1.WorkflowServiceGrpc$WorkflowServiceBlockingStub.signalWorkflowExecution(WorkflowServiceGrpc.java:5313)
+	at app//io.temporal.internal.client.external.GenericWorkflowClientImpl.lambda$signal$2(GenericWorkflowClientImpl.java:93)
+	at app//io.temporal.internal.retryer.GrpcRetryer.lambda$retry$0(GrpcRetryer.java:52)
+	at app//io.temporal.internal.retryer.GrpcSyncRetryer.retry(GrpcSyncRetryer.java:69)
+	at app//io.temporal.internal.retryer.GrpcRetryer.retryWithResult(GrpcRetryer.java:60)
+	at app//io.temporal.internal.retryer.GrpcRetryer.retry(GrpcRetryer.java:50)
+	at app//io.temporal.internal.client.external.GenericWorkflowClientImpl.signal(GenericWorkflowClientImpl.java:88)
+	at app//io.temporal.internal.client.RootWorkflowClientInvoker.signal(RootWorkflowClientInvoker.java:140)
+	at app//io.temporal.client.WorkflowStubImpl.signal(WorkflowStubImpl.java:90)
+	... 9 more
+</failure>
+  </testcase>
+  <testcase name="workflow completes stage loop when gates pass()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.551"/>
+  <testcase name="pause and resume signal handling smoke test()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.777"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[SLF4J: No SLF4J providers were found.
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
-]]></system-err>
+  <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -37,7 +37,7 @@ See git history and `.planning/phases/0*-*/` for v1 plan summaries. All v1 requi
 ### 📋 v2.0 Kotlin (Planned)
 
 - [x] **Phase 8: Kotlin Foundation & Data Layer** - Gradle monorepo, kotlinx-serialization contracts, Exposed/Flyway, audit repositories, Temporal worker shell (completed 2026-06-20)
-- [ ] **Phase 9: LaunchDarkly Adapter (Kotlin)** - Flag read/write parity with v1 ld-adapter
+- [x] **Phase 9: LaunchDarkly Adapter (Kotlin)** - Flag read/write parity with v1 ld-adapter (completed 2026-06-22)
 - [ ] **Phase 10: Telemetry Adapter (Kotlin)** - PromQL builder, gate evaluation, preflight checks
 - [ ] **Phase 11: Promotion Engine (Kotlin)** - Temporal workflow, activities, pause/resume/abort signals
 - [ ] **Phase 12: REST API (Kotlin)** - Ktor routes matching v1 OpenAPI contract
@@ -151,7 +151,24 @@ Plans:
   3. Kotlin adapter resolves variation IDs per environment before writes (same edge cases as v1 nock tests)
   4. Rate limiting and retry behavior matches v1 adapter contract tests
 
-**Plans**: TBD
+**Plans:** 4/4 complete
+
+Plans:
+**Wave 0**
+
+- [x] 09-01-PLAN.md — ld-adapter module + contracts LaunchDarkly.kt + LdApiClient (PROV-01)
+
+**Wave 1** *(blocked on Wave 0)*
+
+- [x] 09-02-PLAN.md — getFlagState + mappers + variation/rule resolvers (PROV-01, PROV-03)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [x] 09-03-PLAN.md — semantic patch builder + applyTargeting + RateLimitedLdClient (PROV-02, PROV-03)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [x] 09-04-PLAN.md — LaunchDarklyProvider + MockWebServer integration tests + docs (PROV-01–03)
 
 ### Phase 10: Telemetry Adapter (Kotlin)
 
@@ -243,7 +260,7 @@ Phases execute in numeric order: 8 → 9 → 10 → 11 → 12 → 13 → 14
 | 6. Operator Dashboard | v1.0 | 4/4 | Complete | 2026-06-22 |
 | 7. Guardrails & Self-Service | v1.0 | 4/4 | Complete | 2026-06-22 |
 | 8. Kotlin Foundation & Data Layer | v2.0 | 5/5 | Complete | 2026-06-20 |
-| 9. LaunchDarkly Adapter (Kotlin) | v2.0 | 0/TBD | Not started | - |
+| 9. LaunchDarkly Adapter (Kotlin) | v2.0 | 4/4 | Complete | 2026-06-22 |
 | 10. Telemetry Adapter (Kotlin) | v2.0 | 0/TBD | Not started | - |
 | 11. Promotion Engine (Kotlin) | v2.0 | 0/TBD | Not started | - |
 | 12. REST API (Kotlin) | v2.0 | 0/TBD | Not started | - |

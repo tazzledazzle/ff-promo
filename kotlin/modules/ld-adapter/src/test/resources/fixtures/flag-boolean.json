@@ -1,0 +1,45 @@
+{
+  "key": "sample-feature",
+  "variations": [
+    { "_id": "var-off", "value": false, "name": "Off" },
+    { "_id": "var-on", "value": true, "name": "On" }
+  ],
+  "environments": {
+    "production": {
+      "on": true,
+      "rules": [
+        {
+          "_id": "rule-prod-1",
+          "description": "Beta users",
+          "clauses": [{ "attribute": "email", "op": "endsWith", "values": ["@example.com"] }],
+          "variationOrRollout": { "variation": 1 }
+        }
+      ],
+      "fallthrough": {
+        "variation": 0,
+        "rollout": {
+          "variations": [
+            { "variation": 1, "weight": 10000 },
+            { "variation": 0, "weight": 90000 }
+          ]
+        }
+      },
+      "offVariation": 0,
+      "targets": []
+    },
+    "staging": {
+      "on": false,
+      "rules": [
+        {
+          "_id": "rule-staging-1",
+          "description": "Internal",
+          "clauses": [],
+          "variationOrRollout": { "variation": 1 }
+        }
+      ],
+      "fallthrough": { "variation": 0 },
+      "offVariation": 0,
+      "targets": []
+    }
+  }
+}

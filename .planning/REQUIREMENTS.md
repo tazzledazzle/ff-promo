@@ -150,9 +150,9 @@ Deferred until after Kotlin cutover. Not in v2.0 roadmap phases 8–14.
 | KOT-03 | Phase 8 | Complete |
 | KOT-04 | Phase 8 | Complete |
 | SAFE-01 | Phase 8 | Complete (Kotlin parity) |
-| PROV-01 | Phase 9 | Pending |
-| PROV-02 | Phase 9 | Pending |
-| PROV-03 | Phase 9 | Pending |
+| PROV-01 | Phase 9 | Complete |
+| PROV-02 | Phase 9 | Complete |
+| PROV-03 | Phase 9 | Complete |
 | TELE-01 | Phase 10 | Pending |
 | TELE-02 | Phase 10 | Pending |
 | TELE-03 | Phase 10 | Pending |

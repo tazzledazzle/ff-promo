@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ffpromo.db.GateResultRepositoryIntegrationTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-06-22T23:46:48" hostname="Terences-MacBook-Pro-2.local" time="0.0">
+<testsuite name="com.ffpromo.db.GateResultRepositoryIntegrationTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-06-23T00:28:36" hostname="Terences-MacBook-Pro-2.local" time="0.001">
   <properties/>
-  <testcase name="initializationError" classname="com.ffpromo.db.GateResultRepositoryIntegrationTest" time="0.0">
+  <testcase name="initializationError" classname="com.ffpromo.db.GateResultRepositoryIntegrationTest" time="0.001">
     <failure message="java.lang.IllegalStateException: Previous attempts to find a Docker environment failed. Will not retry. Please see logs and check configuration" type="java.lang.IllegalStateException">java.lang.IllegalStateException: Previous attempts to find a Docker environment failed. Will not retry. Please see logs and check configuration
 	at org.testcontainers.dockerclient.DockerClientProviderStrategy.getFirstValidStrategy(DockerClientProviderStrategy.java:229)
 	at org.testcontainers.DockerClientFactory.getOrInitializeStrategy(DockerClientFactory.java:154)

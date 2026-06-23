@@ -79,4 +79,34 @@ class ContractsJsonTest {
         assertEquals(PromotionStatus.paused, input.status)
         assertEquals("gate breach", input.pauseReason)
     }
+
+    @Test
+    fun `decodes VariationRef by id discriminator`() {
+        val golden = """{"by":"id","id":"var-on"}"""
+        val ref = json.decodeFromString<VariationRef>(golden)
+        assertEquals(VariationRef.ById("var-on"), ref)
+    }
+
+    @Test
+    fun `decodes TargetingIntent with rollout`() {
+        val golden = """
+            {
+              "environmentKey": "production",
+              "turnOn": true,
+              "rollout": {
+                "mode": "fallthrough",
+                "treatmentVariationRef": {"by":"id","id":"var-on"},
+                "controlVariationRef": {"by":"id","id":"var-off"},
+                "treatmentPercentThousandths": 10000,
+                "rolloutContextKind": "user",
+                "rolloutBucketBy": "user"
+              }
+            }
+        """.trimIndent()
+
+        val intent = json.decodeFromString<TargetingIntent>(golden)
+        assertEquals("production", intent.environmentKey)
+        assertEquals(true, intent.turnOn)
+        assertEquals(10_000, intent.rollout?.treatmentPercentThousandths)
+    }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.worker.ActivityWorkflowTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-23T00:28:55" hostname="Terences-MacBook-Pro-2.local" time="0.78">
+  <properties/>
+  <testcase name="workflow invokes persist activity once()" classname="com.ffpromo.worker.ActivityWorkflowTest" time="0.78"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J: No SLF4J providers were found.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+]]></system-err>
+</testsuite>

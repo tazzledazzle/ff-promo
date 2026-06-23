@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ffpromo.db.AuditRepositoryIntegrationTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-06-22T23:46:48" hostname="Terences-MacBook-Pro-2.local" time="0.001">
+<testsuite name="com.ffpromo.db.AuditRepositoryIntegrationTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-06-23T00:28:36" hostname="Terences-MacBook-Pro-2.local" time="0.001">
   <properties/>
   <testcase name="initializationError" classname="com.ffpromo.db.AuditRepositoryIntegrationTest" time="0.001">
     <failure message="java.lang.IllegalStateException: Could not find a valid Docker environment. Please see logs and check configuration" type="java.lang.IllegalStateException">java.lang.IllegalStateException: Could not find a valid Docker environment. Please see logs and check configuration

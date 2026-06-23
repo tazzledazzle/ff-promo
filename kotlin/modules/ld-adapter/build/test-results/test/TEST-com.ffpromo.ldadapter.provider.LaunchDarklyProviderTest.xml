@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-06-23T00:28:55" hostname="Terences-MacBook-Pro-2.local" time="0.044">
+  <properties/>
+  <testcase name="422 returns error with single PATCH attempt()" classname="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" time="0.009"/>
+  <testcase name="429 then 200 retries successfully()" classname="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" time="0.011"/>
+  <testcase name="405 maps to ApprovalRequiredError()" classname="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" time="0.005"/>
+  <testcase name="PROV-01 reads flag state from GET fixture()" classname="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" time="0.004"/>
+  <testcase name="uses semantic patch content type on PATCH requests()" classname="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" time="0.007"/>
+  <testcase name="PROV-02 and PROV-03 semantic patch with resolved variation ids()" classname="com.ffpromo.ldadapter.provider.LaunchDarklyProviderTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

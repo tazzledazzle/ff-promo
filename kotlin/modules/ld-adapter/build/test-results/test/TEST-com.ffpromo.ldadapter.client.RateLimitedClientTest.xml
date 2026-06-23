@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.ldadapter.client.RateLimitedClientTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-23T00:28:55" hostname="Terences-MacBook-Pro-2.local" time="0.014">
+  <properties/>
+  <testcase name="retries 429 honoring Retry-After header()" classname="com.ffpromo.ldadapter.client.RateLimitedClientTest" time="0.003"/>
+  <testcase name="passes successful calls through without retry()" classname="com.ffpromo.ldadapter.client.RateLimitedClientTest" time="0.001"/>
+  <testcase name="throws LdRateLimitError after retries exhausted on 429()" classname="com.ffpromo.ldadapter.client.RateLimitedClientTest" time="0.003"/>
+  <testcase name="does not retry 422 fail-fast errors()" classname="com.ffpromo.ldadapter.client.RateLimitedClientTest" time="0.003"/>
+  <testcase name="maps 405 to ApprovalRequiredError()" classname="com.ffpromo.ldadapter.client.RateLimitedClientTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,24 @@
+{
+  "key": "sample-feature",
+  "variations": [
+    { "_id": "var-off", "value": false, "name": "Off" },
+    { "_id": "var-on", "value": true, "name": "On" }
+  ],
+  "environments": {
+    "production": {
+      "on": true,
+      "rules": [],
+      "fallthrough": {
+        "variation": 1,
+        "rollout": {
+          "variations": [
+            { "variation": 1, "weight": 10000 },
+            { "variation": 0, "weight": 90000 }
+          ]
+        }
+      },
+      "offVariation": 0,
+      "targets": []
+    }
+  }
+}

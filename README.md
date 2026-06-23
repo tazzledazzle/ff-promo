@@ -68,7 +68,7 @@ The worker connects to Temporal at `TEMPORAL_ADDRESS` (default `localhost:7233`)
 
 ## v2 Kotlin Backend (Phase 8+)
 
-The repo is a **hybrid monorepo**: TypeScript v1 lives in `apps/*` and `packages/*`; Kotlin v2 lives in [`kotlin/`](kotlin/README.md). TypeScript remains the reference implementation until Phase 14 cutover.
+The repo is a **hybrid monorepo**: TypeScript v1 lives in `apps/*` and `packages/*`; Kotlin v2 lives in [`kotlin/`](kotlin/README.md) (`contracts`, `db`, `worker`, **`ld-adapter`**). TypeScript remains the reference implementation until Phase 14 cutover.
 
 **Quick start (Kotlin stack):**
 

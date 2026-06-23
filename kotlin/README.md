@@ -9,6 +9,7 @@ Kotlin modules under `kotlin/` implement the Phase 8+ backend: shared contracts,
 | `modules/contracts` | kotlinx-serialization DTOs mirroring `packages/contracts` |
 | `modules/db` | Flyway migrations, Exposed tables, repositories |
 | `modules/worker` | Temporal promotion workflow + activities |
+| `modules/ld-adapter` | LaunchDarkly REST adapter (read, semantic patch write, rate limiting) |
 
 ## Prerequisites
 
@@ -29,6 +30,9 @@ cd kotlin
 
 # Worker unit/workflow tests (in-memory Temporal)
 ./gradlew :worker:test
+
+# LaunchDarkly adapter tests (MockWebServer; no live LD token)
+./gradlew :ld-adapter:test
 
 # Run worker against local stack
 DATABASE_URL=postgresql://ffpromo:ffpromo@localhost:5432/ffpromo_kotlin \
@@ -82,13 +86,30 @@ The worker runs Flyway migrations on first activity DB connection.
 - Workflow: `PromotionWorkflow` with signals `pause`, `resume`, `abort`
 - Phase 8 activities are stubs; real LaunchDarkly/Prometheus wiring lands in Phases 9–11
 
+## LaunchDarkly adapter (`:ld-adapter`)
+
+Ports `packages/ld-adapter` with PROV-01/02/03 parity:
+
+- **Read:** `getFlagState` via `com.launchdarkly:api-client` GET + JSON mappers
+- **Write:** OkHttp semantic PATCH (`application/json; domain-model=launchdarkly.semanticpatch`)
+- **Resolve:** `resolveVariationId` / `resolveRuleId` before promotion writes
+- **Rate limit:** coroutine semaphore + Retry-After backoff (429/5xx)
+
+Environment variables (Phase 11+ worker/API runtime):
+
+- `LD_ACCESS_TOKEN` — LaunchDarkly API token
+- `LD_BASE_URL` — optional override (default `https://app.launchdarkly.com`)
+
+Factory entry point: `createLaunchDarklyProvider(LaunchDarklyClientConfig(...))`.
+
 ## Phase 8 smoke check
 
 1. `./gradlew build` — all Kotlin modules compile and unit/workflow tests pass
-2. `./gradlew :db:test` — with Docker running (Testcontainers)
-3. `docker compose up -d postgres temporal` then `:worker:run` connects
-4. Verify Flyway schema in `ffpromo_kotlin`: `\dt` shows `"Pipeline"`, `"AuditEvent"`, etc.
-5. `pnpm run build` at repo root still passes (TypeScript v1 unchanged)
+2. `./gradlew :ld-adapter:test` — LaunchDarkly adapter MockWebServer suite
+3. `./gradlew :db:test` — with Docker running (Testcontainers)
+4. `docker compose up -d postgres temporal` then `:worker:run` connects
+5. Verify Flyway schema in `ffpromo_kotlin`: `\dt` shows `"Pipeline"`, `"AuditEvent"`, etc.
+6. `pnpm run build` at repo root still passes (TypeScript v1 unchanged)
 
 Optional script:
 

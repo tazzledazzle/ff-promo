@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.ldadapter.write.ApplyTargetingTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-23T00:28:55" hostname="Terences-MacBook-Pro-2.local" time="0.304">
+  <properties/>
+  <testcase name="GET-before-write getFeatureFlag before PATCH()" classname="com.ffpromo.ldadapter.write.ApplyTargetingTest" time="0.262"/>
+  <testcase name="sets semantic patch Content-Type on PATCH()" classname="com.ffpromo.ldadapter.write.ApplyTargetingTest" time="0.01"/>
+  <testcase name="throws UnresolvedVariationError before patch when ref cannot resolve()" classname="com.ffpromo.ldadapter.write.ApplyTargetingTest" time="0.008"/>
+  <testcase name="routes GET and PATCH through rateLimitedClient schedule()" classname="com.ffpromo.ldadapter.write.ApplyTargetingTest" time="0.011"/>
+  <testcase name="uses resolveRuleId when rollout mode is rule()" classname="com.ffpromo.ldadapter.write.ApplyTargetingTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
