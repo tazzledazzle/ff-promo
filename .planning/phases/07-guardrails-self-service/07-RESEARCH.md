@@ -643,19 +643,13 @@ Four plans in four waves — matches Phase 6 cadence.
 | A4 | Fixed 3-stage form (dev/staging/prod) for dashboard v1 | UI | Low — matches seed pattern and D-11 |
 | A5 | `listAll` replaces `listActive` on GET /v1/pipelines | API gaps | Medium — `/runs/new` may show inactive pipelines unless filtered client-side to `isActive` |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Pipeline config audit storage?**
-   - What we know: D-12 locked; `AuditEvent` is promotion-scoped.
-   - Recommendation: `PipelineConfigAudit` table — one migration, clean semantics.
+1. **Pipeline config audit storage?** — RESOLVED: `PipelineConfigAudit` table with dedicated migration (07-02 Task 1). `AuditEvent` remains promotion-scoped only.
 
-2. **Show inactive pipelines in `/runs/new` picker?**
-   - What we know: `listAll` needed for `/pipelines`; developers should not start runs on inactive pipelines.
-   - Recommendation: API list returns all; `/runs/new` filters `isActive`; guardrails return 403 if bypassed.
+2. **Show inactive pipelines in `/runs/new` picker?** — RESOLVED: `GET /v1/pipelines` uses `listAll` for platform list; `/runs/new` filters `isActive` client-side (07-03 Task 3); API returns 403 if bypassed (07-03 guardrails).
 
-3. **In-place metadata edit vs version bump?**
-   - What we know: D-04 favors immutable; discretion on version row vs in-place.
-   - Recommendation: PATCH allows `description` + `isActive` only; structural changes require new POST.
+3. **In-place metadata edit vs version bump?** — RESOLVED: PATCH allows `description` + `isActive` only; structural changes require new `POST` with bumped version via `resolveNextVersion` (07-01, 07-02).
 
 ## Environment Availability
 

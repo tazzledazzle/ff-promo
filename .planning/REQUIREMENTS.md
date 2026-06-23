@@ -7,9 +7,9 @@
 
 ### Provider Integration
 
-- [ ] **PROV-01**: System reads flag state from LaunchDarkly (variations, targeting rules, environment)
-- [ ] **PROV-02**: System writes targeting updates to LaunchDarkly via semantic patch API
-- [ ] **PROV-03**: System resolves LaunchDarkly variation IDs per environment before promotion writes
+- [x] **PROV-01**: System reads flag state from LaunchDarkly (variations, targeting rules, environment)
+- [x] **PROV-02**: System writes targeting updates to LaunchDarkly via semantic patch API
+- [x] **PROV-03**: System resolves LaunchDarkly variation IDs per environment before promotion writes
 
 ### Promotion Pipeline
 
@@ -46,12 +46,39 @@
 
 ### Safety & Compliance
 
-- [ ] **SAFE-01**: System records audit trail for all promotion events (actor, action, timestamp, gate results)
+- [x] **SAFE-01**: System records audit trail for all promotion events (actor, action, timestamp, gate results)
 - [x] **SAFE-02**: Operator can emergency-stop an in-flight promotion immediately via API or dashboard
 
-## v2 Requirements
+## v2.0 Kotlin Migration Requirements
 
-Deferred to future release. Tracked but not in current roadmap.
+**Milestone:** Re-implement backend in Kotlin with v1 behavioral parity. Next.js dashboard retained.
+
+### Platform
+
+- [x] **KOT-01**: Gradle Kotlin DSL multi-module monorepo builds all backend services from repo root
+- [ ] **KOT-02**: Kotlin REST API exposes v1-compatible OpenAPI contract (same paths, request/response JSON shapes)
+- [x] **KOT-03**: PostgreSQL schema preserved via Flyway; domain model matches v1 Prisma schema
+- [x] **KOT-04**: Docker Compose dev stack runs Kotlin API + worker against postgres + temporal
+- [ ] **KOT-05**: TypeScript backend (`apps/api`, `apps/worker`, `packages/*`) deprecated from active deploy path
+- [ ] **KOT-06**: Parity test suite validates Kotlin behavior against v1 requirement catalog (23 reqs)
+
+### Functional Parity (re-implemented on Kotlin)
+
+All v1 functional requirements below are **in scope for v2** — status resets to pending until Kotlin phase completes. TypeScript v1 remains the reference implementation during migration.
+
+| v1 ID | v2 Phase | Parity focus |
+|-------|----------|--------------|
+| PROV-01–03 | Phase 9 | LaunchDarkly read/write/resolution |
+| TELE-01–04 | Phase 10 | SLO config types + PromQL gates + preflight |
+| PIPE-01–04 | Phases 11, 14 | Engine progression + pipeline CRUD |
+| GRD-01–03 | Phase 14 | Guardrail validation + server enforcement |
+| API-01–03 | Phases 12, 14 | Promotion + pipeline REST |
+| UI-01–04 | Phases 13, 14 | Dashboard against Kotlin API |
+| SAFE-01–02 | Phases 8, 11 | Audit trail + emergency stop |
+
+## v2 Feature Requirements (post-Kotlin)
+
+Deferred until after Kotlin cutover. Not in v2.0 roadmap phases 8–14.
 
 ### Promotion Pipeline
 
@@ -87,37 +114,73 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ## Traceability
 
+### v1.0 TypeScript (shipped)
+
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SAFE-01 | Phase 1 | Pending |
-| PROV-01 | Phase 2 | Pending |
-| PROV-02 | Phase 2 | Pending |
-| PROV-03 | Phase 2 | Pending |
-| TELE-03 | Phase 3 | Complete |
-| TELE-04 | Phase 3 | Complete |
-| PIPE-02 | Phase 4 | Complete |
-| PIPE-03 | Phase 4 | Complete |
-| PIPE-04 | Phase 4 | Complete |
-| SAFE-02 | Phase 4 | Complete |
-| API-01 | Phase 5 | Complete |
-| API-02 | Phase 5 | Complete |
-| UI-01 | Phase 6 | Complete |
-| UI-02 | Phase 6 | Complete |
-| UI-03 | Phase 6 | Complete |
-| PIPE-01 | Phase 7 | Complete |
-| TELE-01 | Phase 7 | Complete |
-| TELE-02 | Phase 7 | Complete |
-| GRD-01 | Phase 7 | Complete |
-| GRD-02 | Phase 7 | Complete |
-| GRD-03 | Phase 7 | Complete |
-| API-03 | Phase 7 | Complete |
-| UI-04 | Phase 7 | Complete |
+| SAFE-01 | Phase 1 | Complete (TS) |
+| PROV-01 | Phase 2 | Complete (TS) |
+| PROV-02 | Phase 2 | Complete (TS) |
+| PROV-03 | Phase 2 | Complete (TS) |
+| TELE-03 | Phase 3 | Complete (TS) |
+| TELE-04 | Phase 3 | Complete (TS) |
+| PIPE-02 | Phase 4 | Complete (TS) |
+| PIPE-03 | Phase 4 | Complete (TS) |
+| PIPE-04 | Phase 4 | Complete (TS) |
+| SAFE-02 | Phase 4 | Complete (TS) |
+| API-01 | Phase 5 | Complete (TS) |
+| API-02 | Phase 5 | Complete (TS) |
+| UI-01 | Phase 6 | Complete (TS) |
+| UI-02 | Phase 6 | Complete (TS) |
+| UI-03 | Phase 6 | Complete (TS) |
+| PIPE-01 | Phase 7 | Complete (TS) |
+| TELE-01 | Phase 7 | Complete (TS) |
+| TELE-02 | Phase 7 | Complete (TS) |
+| GRD-01 | Phase 7 | Complete (TS) |
+| GRD-02 | Phase 7 | Complete (TS) |
+| GRD-03 | Phase 7 | Complete (TS) |
+| API-03 | Phase 7 | Complete (TS) |
+| UI-04 | Phase 7 | Complete (TS) |
+
+### v2.0 Kotlin (planned)
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| KOT-01 | Phase 8 | Complete |
+| KOT-03 | Phase 8 | Complete |
+| KOT-04 | Phase 8 | Complete |
+| SAFE-01 | Phase 8 | Complete (Kotlin parity) |
+| PROV-01 | Phase 9 | Pending |
+| PROV-02 | Phase 9 | Pending |
+| PROV-03 | Phase 9 | Pending |
+| TELE-01 | Phase 10 | Pending |
+| TELE-02 | Phase 10 | Pending |
+| TELE-03 | Phase 10 | Pending |
+| TELE-04 | Phase 10 | Pending |
+| PIPE-02 | Phase 11 | Pending |
+| PIPE-03 | Phase 11 | Pending |
+| PIPE-04 | Phase 11 | Pending |
+| SAFE-02 | Phase 11 | Pending |
+| API-01 | Phase 12 | Pending |
+| API-02 | Phase 12 | Pending |
+| KOT-02 | Phase 12 | Pending |
+| UI-01 | Phase 13 | Pending |
+| UI-02 | Phase 13 | Pending |
+| UI-03 | Phase 13 | Pending |
+| PIPE-01 | Phase 14 | Pending |
+| GRD-01 | Phase 14 | Pending |
+| GRD-02 | Phase 14 | Pending |
+| GRD-03 | Phase 14 | Pending |
+| API-03 | Phase 14 | Pending |
+| UI-04 | Phase 14 | Pending |
+| KOT-05 | Phase 14 | Pending |
+| KOT-06 | Phase 14 | Pending |
 
 **Coverage:**
-- v1 requirements: 23 total
-- Mapped to phases: 23
+- v2.0 platform requirements (KOT-01–06): 6 total, mapped: 6 ✓
+- v2.0 functional parity (re-mapped v1 IDs): 23 total, mapped: 23 ✓
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-20*
-*Last updated: 2026-06-20 after roadmap creation*
+*Last updated: 2026-06-20 — v2.0 Kotlin migration milestone*

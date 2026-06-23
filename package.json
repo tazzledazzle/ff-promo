@@ -11,7 +11,9 @@
     "test:db": "pnpm exec vitest run --project db",
     "test:worker": "pnpm exec vitest run --project worker",
     "lint": "turbo run lint",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "build:kotlin": "cd kotlin && ./gradlew build",
+    "test:kotlin": "cd kotlin && ./gradlew test"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",

@@ -12,19 +12,31 @@ Flags promote safely across environments only when telemetry confirms the rollou
 
 ### Validated
 
-(None yet — ship to validate)
+- v1.0 TypeScript milestone shipped 2026-06-22 — see Traceability (v1.0) for requirement-level status
 
-### Active
+### Active (v2.0 Kotlin Migration)
 
-- [ ] Orchestrate environment-based promotion pipeline (dev → staging → prod)
-- [ ] Gate each promotion stage on error rate and latency SLO thresholds
-- [ ] Support pre-release, canary, and stagger rollout periods within each environment transition
-- [ ] Pause promotion and alert on telemetry breach (no automatic rollback in v1)
-- [ ] LaunchDarkly adapter for flag state reads and targeting updates
-- [ ] REST API and CLI for programmatic promotion control
-- [ ] Web dashboard for pipeline status, promotion controls, and telemetry visualization
-- [ ] Platform guardrails configurable by release engineers
-- [ ] Developer self-service promotion within guardrail constraints
+- [ ] Re-implement backend services in Kotlin (Gradle multi-module: API, worker, adapters, data layer)
+- [ ] Preserve v1 REST API contract — Next.js dashboard continues without rewrite
+- [ ] Maintain PostgreSQL domain schema and audit semantics via Flyway + Exposed
+- [ ] Achieve behavioral parity with v1 TypeScript for all 23 functional requirements
+- [ ] Retire TypeScript backend from active deploy path after parity validation
+
+### Validated (v1.0 TypeScript — shipped 2026-06-22)
+
+- [x] Orchestrate environment-based promotion pipeline (dev → staging → prod)
+- [x] Gate each promotion stage on error rate and latency SLO thresholds
+- [x] LaunchDarkly adapter for flag state reads and targeting updates
+- [x] REST API for programmatic promotion control
+- [x] Web dashboard for pipeline status, promotion controls, and telemetry visualization
+- [x] Platform guardrails configurable by release engineers
+- [x] Developer self-service promotion within guardrail constraints
+
+### Deferred from v1 Active
+
+- [ ] Support pre-release, canary, and stagger rollout periods within each environment transition (PIPE-05, v2 features)
+- [ ] Pause promotion and alert on telemetry breach integrations (TELE-05, v2 features)
+- [ ] CLI for programmatic promotion control (API-04, v2 features)
 
 ### Out of Scope
 
@@ -60,7 +72,9 @@ Integration model: orchestration layer on top of LaunchDarkly. The system reads 
 | Pause-and-alert over auto-rollback | Prevents false-positive rollbacks from noisy telemetry | — Pending |
 | LaunchDarkly first adapter | Widely adopted, rich API for targeting updates | — Pending |
 | SLO gates only in v1 | Error rate + latency are universal, testable, and sufficient for MVP | — Pending |
-| Dual user model (platform + devs) | Platform sets guardrails, devs self-serve within bounds | — Pending |
+| Dual user model (platform + devs) | Platform sets guardrails, devs self-serve within bounds | v1 shipped |
+| v2 Kotlin backend | JVM ecosystem, Exposed/Flyway, Ktor; keep Next.js dashboard | In progress |
+| v1 TS as parity reference | De-risk migration with side-by-side contract tests | Phase 14 cutover |
 
 ## Evolution
 

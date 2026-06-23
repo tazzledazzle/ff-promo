@@ -1,0 +1,77 @@
+{
+  "_meta": {
+    "updated_at": "2026-06-22T23:04:39.886Z",
+    "version": 2
+  },
+  "entries": {
+    "horizontal-layer-monorepo": {
+      "title": "Horizontal layer monorepo",
+      "decision": "Organize as contracts → adapters → engine → API → dashboard → guardrails",
+      "rationale": "Each phase ships a complete horizontal slice; shared Zod contracts prevent drift",
+      "files": [
+        "packages/contracts/src/index.ts",
+        "turbo.json"
+      ]
+    },
+    "temporal-promotion-orchestration": {
+      "title": "Temporal for promotion lifecycle",
+      "decision": "Multi-stage promotion runs as Temporal workflow with pause/resume/abort signals",
+      "rationale": "Long-running gates and durable state require workflow engine",
+      "files": [
+        "apps/worker/src/workflows/promotion.workflow.ts",
+        "packages/promotion-control/src/index.ts"
+      ]
+    },
+    "zod-contract-boundary": {
+      "title": "Zod schemas as validation source of truth",
+      "decision": "All API and repository boundaries validate via @ff-promo/contracts",
+      "rationale": "Single schema shared by Fastify routes, services, and web api-client types",
+      "files": [
+        "packages/contracts/src/pipeline.ts",
+        "packages/contracts/src/api.ts"
+      ]
+    },
+    "guardrail-service": {
+      "title": "Pure GuardrailService for promotion bounds",
+      "decision": "Centralize pipeline config and promotion validation in guardrail.service.ts",
+      "rationale": "Server-side enforcement of active pipeline, flagKey match, required metrics per stage",
+      "files": [
+        "apps/api/src/services/guardrail.service.ts"
+      ]
+    },
+    "immutable-pipeline-config": {
+      "title": "Immutable pipeline configuration",
+      "decision": "PATCH allowlist isActive and description only; deactivate + new version for changes",
+      "rationale": "Audit trail integrity; prevent retroactive gate policy tampering",
+      "files": [
+        "packages/db/src/repositories/pipeline.repository.ts",
+        "apps/api/src/services/pipeline.service.ts"
+      ]
+    },
+    "pipeline-config-audit": {
+      "title": "Separate PipelineConfigAudit from promotion AuditEvent",
+      "decision": "Config changes audited in PipelineConfigAudit table, not promotion AuditEvent",
+      "rationale": "AuditEvent requires promotionRunId; config events are pipeline-scoped",
+      "files": [
+        "packages/db/src/repositories/pipeline-audit.repository.ts"
+      ]
+    },
+    "nextjs-bff-proxy": {
+      "title": "Next.js BFF proxy for dashboard API calls",
+      "decision": "Browser calls /api/ff-promo/* proxied to Fastify with API key injection",
+      "rationale": "Keeps API key server-side; avoids CORS for local dashboard dev",
+      "files": [
+        "apps/web/src/app/api/ff-promo/[[...path]]/route.ts"
+      ]
+    },
+    "required-gate-metrics": {
+      "title": "Required error_rate and latency_p95 per stage",
+      "decision": "Every pipeline stage must define both metric gate policies",
+      "rationale": "Aligns with PromQL builder metric types and SLO coverage (TELE-01, TELE-02)",
+      "files": [
+        "packages/contracts/src/pipeline.ts",
+        "packages/telemetry/src/query/build-promql.ts"
+      ]
+    }
+  }
+}

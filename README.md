@@ -66,6 +66,23 @@ pnpm dev
 
 The worker connects to Temporal at `TEMPORAL_ADDRESS` (default `localhost:7233`) and uses Postgres via `DATABASE_URL`.
 
+## v2 Kotlin Backend (Phase 8+)
+
+The repo is a **hybrid monorepo**: TypeScript v1 lives in `apps/*` and `packages/*`; Kotlin v2 lives in [`kotlin/`](kotlin/README.md). TypeScript remains the reference implementation until Phase 14 cutover.
+
+**Quick start (Kotlin stack):**
+
+```bash
+pnpm run build:kotlin
+docker compose --profile kotlin up -d   # postgres + temporal + kotlin-worker
+```
+
+Use database `ffpromo_kotlin` for Flyway-only Kotlin dev (see [`kotlin/README.md`](kotlin/README.md)). The default `ffpromo` database stays on Prisma for TypeScript v1.
+
+```bash
+pnpm run test:kotlin   # Gradle tests (db tests need Docker)
+```
+
 ## Test Shortcuts
 
 Run only database integration tests (requires Docker for testcontainers):

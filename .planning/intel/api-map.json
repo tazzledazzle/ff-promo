@@ -1,0 +1,136 @@
+{
+  "_meta": {
+    "updated_at": "2026-06-22T23:04:39.718Z",
+    "version": 3
+  },
+  "entries": {
+    "GET /health": {
+      "method": "GET",
+      "path": "/health",
+      "params": [],
+      "file": "apps/api/src/routes/health.ts",
+      "description": "Health check"
+    },
+    "GET /v1/promotion-runs": {
+      "method": "GET",
+      "path": "/v1/promotion-runs",
+      "params": [
+        "status",
+        "limit"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "List promotion runs with optional status filter"
+    },
+    "POST /v1/promotion-runs": {
+      "method": "POST",
+      "path": "/v1/promotion-runs",
+      "params": [],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Create promotion run (guardrail-validated)"
+    },
+    "POST /v1/promotion-runs/:id/start": {
+      "method": "POST",
+      "path": "/v1/promotion-runs/:id/start",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Start Temporal workflow for pending run"
+    },
+    "POST /v1/promotion-runs/:id/pause": {
+      "method": "POST",
+      "path": "/v1/promotion-runs/:id/pause",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Pause active promotion run"
+    },
+    "POST /v1/promotion-runs/:id/resume": {
+      "method": "POST",
+      "path": "/v1/promotion-runs/:id/resume",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Resume paused promotion run"
+    },
+    "POST /v1/promotion-runs/:id/abort": {
+      "method": "POST",
+      "path": "/v1/promotion-runs/:id/abort",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Emergency abort promotion run"
+    },
+    "GET /v1/promotion-runs/:id": {
+      "method": "GET",
+      "path": "/v1/promotion-runs/:id",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Run status with gate forensics and live workflow state"
+    },
+    "GET /v1/promotion-runs/:id/gate-results": {
+      "method": "GET",
+      "path": "/v1/promotion-runs/:id/gate-results",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Gate evaluation history for run"
+    },
+    "GET /v1/promotion-runs/:id/audit-events": {
+      "method": "GET",
+      "path": "/v1/promotion-runs/:id/audit-events",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/promotion-runs.ts",
+      "description": "Promotion audit trail for run"
+    },
+    "GET /v1/pipelines": {
+      "method": "GET",
+      "path": "/v1/pipelines",
+      "params": [],
+      "file": "apps/api/src/routes/pipelines.ts",
+      "description": "List all pipelines (active and inactive)"
+    },
+    "POST /v1/pipelines": {
+      "method": "POST",
+      "path": "/v1/pipelines",
+      "params": [],
+      "file": "apps/api/src/routes/pipelines.ts",
+      "description": "Create pipeline with nested stages and gate policies"
+    },
+    "GET /v1/pipelines/:id": {
+      "method": "GET",
+      "path": "/v1/pipelines/:id",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/pipelines.ts",
+      "description": "Pipeline detail with gate policies per stage"
+    },
+    "PATCH /v1/pipelines/:id": {
+      "method": "PATCH",
+      "path": "/v1/pipelines/:id",
+      "params": [
+        "id"
+      ],
+      "file": "apps/api/src/routes/pipelines.ts",
+      "description": "Deactivate pipeline or update description"
+    },
+    "ALL /api/ff-promo/*": {
+      "method": "ALL",
+      "path": "/api/ff-promo/[[...path]]",
+      "params": [
+        "path"
+      ],
+      "file": "apps/web/src/app/api/ff-promo/[[...path]]/route.ts",
+      "description": "Next.js BFF proxy to Fastify API with API key injection"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "updated_at": "2026-06-22T23:04:39.515Z",
+    "version": 3
+  },
+  "languages": [
+    "TypeScript"
+  ],
+  "frameworks": [
+    "Fastify",
+    "Next.js",
+    "React",
+    "Temporal",
+    "Prisma",
+    "Tailwind CSS"
+  ],
+  "tools": [
+    "Turbo",
+    "Biome",
+    "Vitest",
+    "Docker Compose",
+    "Testcontainers",
+    "MSW"
+  ],
+  "build_system": "pnpm workspaces + Turbo",
+  "test_framework": "Vitest (multi-project: db, api, web, worker, ld-adapter, telemetry)",
+  "package_manager": "pnpm",
+  "runtime": "Node.js >=24",
+  "content_formats": [
+    "Markdown (GSD planning docs)",
+    "Prisma schema",
+    "OpenAPI via @fastify/swagger"
+  ],
+  "apps": [
+    {
+      "name": "@ff-promo/api",
+      "path": "apps/api",
+      "role": "REST API server"
+    },
+    {
+      "name": "@ff-promo/web",
+      "path": "apps/web",
+      "role": "Operator dashboard (port 3001)"
+    },
+    {
+      "name": "@ff-promo/worker",
+      "path": "apps/worker",
+      "role": "Temporal worker + promotion workflow"
+    },
+    {
+      "name": "@ff-promo/cli",
+      "path": "apps/cli",
+      "role": "CLI stub (v2 deferred)"
+    }
+  ],
+  "packages": [
+    {
+      "name": "@ff-promo/contracts",
+      "path": "packages/contracts",
+      "role": "Shared Zod schemas and types"
+    },
+    {
+      "name": "@ff-promo/db",
+      "path": "packages/db",
+      "role": "Prisma ORM, repositories, seed"
+    },
+    {
+      "name": "@ff-promo/ld-adapter",
+      "path": "packages/ld-adapter",
+      "role": "LaunchDarkly REST adapter"
+    },
+    {
+      "name": "@ff-promo/telemetry",
+      "path": "packages/telemetry",
+      "role": "Prometheus PromQL gate evaluation"
+    },
+    {
+      "name": "@ff-promo/promotion-control",
+      "path": "packages/promotion-control",
+      "role": "Temporal workflow signals and start helpers"
+    }
+  ],
+  "infrastructure": [
+    "PostgreSQL 16 (docker-compose)",
+    "Temporal dev server (docker-compose)",
+    "Prometheus optional profile (docker-compose)"
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "_meta": {
+    "updated_at": "2026-06-22T23:04:39.802Z",
+    "version": 3
+  },
+  "entries": {
+    "fastify": {
+      "version": "5.8.5",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/api/src/app.ts",
+        "apps/api/src/routes/"
+      ]
+    },
+    "@fastify/swagger": {
+      "version": "9.7.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/api/src/plugins/swagger.ts"
+      ]
+    },
+    "@fastify/type-provider-zod": {
+      "version": "1.0.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/api/src/app.ts",
+        "apps/api/src/routes/"
+      ]
+    },
+    "zod": {
+      "version": "4.4.3",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "packages/contracts/src/",
+        "apps/api/src/",
+        "apps/web/src/"
+      ]
+    },
+    "@temporalio/client": {
+      "version": "1.18.1",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/api/src/lib/temporal-client.ts",
+        "packages/promotion-control/src/"
+      ]
+    },
+    "@temporalio/worker": {
+      "version": "1.18.1",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/worker/src/worker.ts"
+      ]
+    },
+    "@temporalio/workflow": {
+      "version": "1.18.1",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/worker/src/workflows/promotion.workflow.ts",
+        "packages/promotion-control/src/signals.ts"
+      ]
+    },
+    "@temporalio/activity": {
+      "version": "1.18.1",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/worker/src/activities/"
+      ]
+    },
+    "@prisma/client": {
+      "version": "7.8.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "packages/db/src/repositories/"
+      ]
+    },
+    "pg": {
+      "version": "8.22.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "packages/db/src/client.ts"
+      ]
+    },
+    "next": {
+      "version": "16.2.9",
+      "type": "production",
+      "invocation": "pnpm --filter @ff-promo/web dev",
+      "used_by": [
+        "apps/web/src/app/"
+      ]
+    },
+    "react": {
+      "version": "19.2.7",
+      "type": "production",
+      "invocation": "implicit",
+      "used_by": [
+        "apps/web/src/components/",
+        "apps/web/src/app/"
+      ]
+    },
+    "@tanstack/react-query": {
+      "version": "5.101.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "apps/web/src/hooks/"
+      ]
+    },
+    "launchdarkly-api": {
+      "version": "20.0.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "packages/ld-adapter/src/client/ld-api-client.ts"
+      ]
+    },
+    "bottleneck": {
+      "version": "2.19.5",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "packages/ld-adapter/src/client/rate-limited-client.ts"
+      ]
+    },
+    "p-retry": {
+      "version": "8.0.0",
+      "type": "production",
+      "invocation": "require",
+      "used_by": [
+        "packages/ld-adapter/src/",
+        "packages/telemetry/src/client/prometheus-client.ts"
+      ]
+    },
+    "turbo": {
+      "version": "2.9.18",
+      "type": "development",
+      "invocation": "pnpm run build",
+      "used_by": [
+        "turbo.json"
+      ]
+    },
+    "vitest": {
+      "version": "4.1.9",
+      "type": "development",
+      "invocation": "pnpm test",
+      "used_by": [
+        "vitest.config.ts"
+      ]
+    },
+    "@biomejs/biome": {
+      "version": "^2.0.6",
+      "type": "development",
+      "invocation": "pnpm run lint",
+      "used_by": [
+        "biome.json"
+      ]
+    },
+    "@testcontainers/postgresql": {
+      "version": "12.0.3",
+      "type": "development",
+      "invocation": "pnpm exec vitest run --project api",
+      "used_by": [
+        "packages/db/src/__tests__/setup.ts",
+        "apps/api/src/__tests__/"
+      ]
+    },
+    "msw": {
+      "version": "^2.10.2",
+      "type": "development",
+      "invocation": "pnpm exec vitest run --project web",
+      "used_by": [
+        "apps/web/src/__tests__/mocks/handlers.ts"
+      ]
+    },
+    "nock": {
+      "version": "14.0.15",
+      "type": "development",
+      "invocation": "pnpm exec vitest run --project worker",
+      "used_by": [
+        "apps/worker/src/__tests__/helpers/"
+      ]
+    }
+  }
+}

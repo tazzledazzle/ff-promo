@@ -9,6 +9,22 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init-kotlin-db.sql:/docker-entrypoint-initdb.d/02-init-kotlin-db.sql:ro
+
+  kotlin-worker:
+    profiles: [kotlin]
+    image: gradle:8.14.3-jdk21
+    working_dir: /workspace/kotlin
+    volumes:
+      - .:/workspace
+    depends_on:
+      - postgres
+      - temporal
+    environment:
+      DATABASE_URL: postgresql://ffpromo:ffpromo@postgres:5432/ffpromo_kotlin
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_TASK_QUEUE: promotion
+    command: ["./gradlew", ":worker:run", "--no-daemon"]
 
   temporal:
     image: temporalio/admin-tools:1.27.2

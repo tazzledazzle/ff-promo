@@ -1,0 +1,379 @@
+{
+  "_meta": {
+    "updated_at": "2026-06-22T23:04:39.595Z",
+    "version": 3
+  },
+  "entries": {
+    "apps/api/src/index.ts": {
+      "exports": [],
+      "imports": [
+        "./app.js",
+        "./lib/env.js"
+      ],
+      "type": "entry-point"
+    },
+    "apps/api/src/app.ts": {
+      "exports": [
+        "buildApp"
+      ],
+      "imports": [
+        "fastify",
+        "@fastify/type-provider-zod",
+        "./routes/health.js",
+        "./routes/promotion-runs.js",
+        "./routes/pipelines.js",
+        "./services/promotion-run.service.js",
+        "./services/pipeline.service.js"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/routes/promotion-runs.ts": {
+      "exports": [
+        "promotionRunRoutes"
+      ],
+      "imports": [
+        "@ff-promo/contracts",
+        "../services/promotion-run.service.js"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/routes/pipelines.ts": {
+      "exports": [
+        "pipelineRoutes"
+      ],
+      "imports": [
+        "@ff-promo/contracts",
+        "../services/pipeline.service.js"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/routes/health.ts": {
+      "exports": [
+        "healthRoutes"
+      ],
+      "imports": [
+        "fastify",
+        "zod"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/services/promotion-run.service.ts": {
+      "exports": [
+        "createPromotionRunService"
+      ],
+      "imports": [
+        "@ff-promo/db",
+        "@ff-promo/promotion-control",
+        "./guardrail.service.js"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/services/pipeline.service.ts": {
+      "exports": [
+        "createPipelineService"
+      ],
+      "imports": [
+        "@ff-promo/db",
+        "@ff-promo/contracts",
+        "./guardrail.service.js"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/services/guardrail.service.ts": {
+      "exports": [
+        "validatePipelineConfig",
+        "validatePromotionRequest",
+        "throwOnViolation",
+        "ENV_ORDER",
+        "REQUIRED_METRICS"
+      ],
+      "imports": [
+        "@ff-promo/contracts"
+      ],
+      "type": "module"
+    },
+    "apps/api/src/errors/api-error.ts": {
+      "exports": [
+        "ApiError",
+        "conflict",
+        "notFound",
+        "unauthorized",
+        "forbidden",
+        "unprocessableEntity"
+      ],
+      "imports": [],
+      "type": "module"
+    },
+    "apps/worker/src/worker.ts": {
+      "exports": [],
+      "imports": [
+        "@temporalio/worker",
+        "./activities/index.js",
+        "./workflows/promotion.workflow.js"
+      ],
+      "type": "entry-point"
+    },
+    "apps/worker/src/workflows/promotion.workflow.ts": {
+      "exports": [
+        "promotionWorkflow"
+      ],
+      "imports": [
+        "@temporalio/workflow",
+        "../activities/index.js",
+        "./signals.js"
+      ],
+      "type": "module"
+    },
+    "apps/worker/src/activities/index.ts": {
+      "exports": [
+        "persistRunState",
+        "recordAuditEvent",
+        "evaluateGate",
+        "runPreflight",
+        "applyStageTargeting"
+      ],
+      "imports": [
+        "@ff-promo/db",
+        "@ff-promo/telemetry",
+        "@ff-promo/ld-adapter"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/app/page.tsx": {
+      "exports": [
+        "default"
+      ],
+      "imports": [
+        "next/link"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/app/runs/page.tsx": {
+      "exports": [
+        "default"
+      ],
+      "imports": [
+        "@/hooks/use-promotion-runs",
+        "@/components/runs/runs-table"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/app/pipelines/page.tsx": {
+      "exports": [
+        "default"
+      ],
+      "imports": [
+        "@/hooks/use-pipelines",
+        "@/components/pipelines/pipelines-table"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/app/api/ff-promo/[[...path]]/route.ts": {
+      "exports": [
+        "GET",
+        "POST",
+        "PATCH",
+        "PUT",
+        "DELETE"
+      ],
+      "imports": [
+        "@/lib/env"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/lib/api-client.ts": {
+      "exports": [
+        "createApiClient"
+      ],
+      "imports": [
+        "@ff-promo/contracts",
+        "@/lib/api-errors"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/hooks/use-pipelines.ts": {
+      "exports": [
+        "usePipelines"
+      ],
+      "imports": [
+        "@tanstack/react-query",
+        "@/lib/api-client"
+      ],
+      "type": "module"
+    },
+    "apps/web/src/hooks/use-pipeline-mutations.ts": {
+      "exports": [
+        "usePipelineMutations"
+      ],
+      "imports": [
+        "@tanstack/react-query",
+        "@/lib/api-client"
+      ],
+      "type": "module"
+    },
+    "packages/contracts/src/index.ts": {
+      "exports": [
+        "*"
+      ],
+      "imports": [
+        "./api.js",
+        "./audit.js",
+        "./gate-result.js",
+        "./launchdarkly.js",
+        "./pipeline.js",
+        "./promotion-engine.js",
+        "./promotion-run.js",
+        "./telemetry.js"
+      ],
+      "type": "module"
+    },
+    "packages/contracts/src/pipeline.ts": {
+      "exports": [
+        "MetricTypeSchema",
+        "GatePolicyInputSchema",
+        "PipelineCreateInputSchema",
+        "PipelineCreateRequestSchema",
+        "PipelineUpdateRequestSchema",
+        "PipelineResponseSchema",
+        "GuardrailViolationSchema",
+        "ENV_ORDER",
+        "REQUIRED_METRICS"
+      ],
+      "imports": [
+        "zod",
+        "./promotion-run.js"
+      ],
+      "type": "module"
+    },
+    "packages/contracts/src/api.ts": {
+      "exports": [
+        "CreatePromotionRunRequestSchema",
+        "PromotionRunResponseSchema",
+        "PipelineListItemSchema",
+        "PipelineDetailResponseSchema"
+      ],
+      "imports": [
+        "zod",
+        "./promotion-run.js",
+        "./gate-result.js"
+      ],
+      "type": "module"
+    },
+    "packages/db/src/index.ts": {
+      "exports": [
+        "createPrismaClient",
+        "createRepositories",
+        "PipelineRepository",
+        "PipelineAuditRepository",
+        "PromotionRunRepository",
+        "GateResultRepository",
+        "AuditRepository"
+      ],
+      "imports": [
+        "./client.js",
+        "./repositories/index.js"
+      ],
+      "type": "module"
+    },
+    "packages/db/src/repositories/pipeline.repository.ts": {
+      "exports": [
+        "PipelineRepository"
+      ],
+      "imports": [
+        "@ff-promo/contracts",
+        "@prisma/client"
+      ],
+      "type": "module"
+    },
+    "packages/db/src/repositories/pipeline-audit.repository.ts": {
+      "exports": [
+        "PipelineAuditRepository"
+      ],
+      "imports": [
+        "@prisma/client"
+      ],
+      "type": "module"
+    },
+    "packages/db/src/repositories/promotion-run.repository.ts": {
+      "exports": [
+        "PromotionRunRepository"
+      ],
+      "imports": [
+        "@ff-promo/contracts",
+        "@prisma/client"
+      ],
+      "type": "module"
+    },
+    "packages/db/prisma/schema.prisma": {
+      "exports": [],
+      "imports": [],
+      "type": "config"
+    },
+    "packages/ld-adapter/src/index.ts": {
+      "exports": [
+        "createLaunchDarklyClient",
+        "LaunchDarklyProvider",
+        "getFlagState",
+        "applyTargeting",
+        "resolveVariationId",
+        "resolveRuleId"
+      ],
+      "imports": [
+        "./client/ld-api-client.js",
+        "./provider/launch-darkly-provider.js",
+        "./read/get-flag-state.js",
+        "./write/apply-targeting.js"
+      ],
+      "type": "module"
+    },
+    "packages/telemetry/src/index.ts": {
+      "exports": [
+        "createPrometheusClient",
+        "evaluateGatePolicy",
+        "evaluateStageGates",
+        "runPreflightChecks",
+        "buildMetricQuery"
+      ],
+      "imports": [
+        "./client/prometheus-client.js",
+        "./evaluate/evaluate-gate-policy.js",
+        "./query/build-promql.js"
+      ],
+      "type": "module"
+    },
+    "packages/promotion-control/src/index.ts": {
+      "exports": [
+        "startPromotionRun",
+        "signalPromotionRun",
+        "queryPromotionStatus",
+        "PROMOTION_WORKFLOW_TYPE"
+      ],
+      "imports": [
+        "./start-promotion-run.js",
+        "./signal-promotion-run.js",
+        "./signals.js"
+      ],
+      "type": "module"
+    },
+    "vitest.config.ts": {
+      "exports": [
+        "default"
+      ],
+      "imports": [
+        "vitest/config",
+        "@vitejs/plugin-react"
+      ],
+      "type": "config"
+    },
+    "turbo.json": {
+      "exports": [],
+      "imports": [],
+      "type": "config"
+    },
+    "docker-compose.yml": {
+      "exports": [],
+      "imports": [],
+      "type": "config"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.worker.PromotionWorkflowTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-22T23:47:45" hostname="Terences-MacBook-Pro-2.local" time="1.57">
+  <properties/>
+  <testcase name="abort signal stops workflow()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.75"/>
+  <testcase name="workflow completes stage loop when gates pass()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.306"/>
+  <testcase name="pause and resume signal handling smoke test()" classname="com.ffpromo.worker.PromotionWorkflowTest" time="0.512"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J: No SLF4J providers were found.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+]]></system-err>
+</testsuite>
