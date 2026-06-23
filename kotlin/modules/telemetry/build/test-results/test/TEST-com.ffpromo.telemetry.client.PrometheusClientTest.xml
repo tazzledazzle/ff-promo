@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.telemetry.client.PrometheusClientTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-06-23T01:43:16" hostname="Terences-MacBook-Pro-2.local" time="0.026">
+  <properties/>
+  <testcase name="sends Authorization bearer header when token provided()" classname="com.ffpromo.telemetry.client.PrometheusClientTest" time="0.004"/>
+  <testcase name="does not include bearer token in error context()" classname="com.ffpromo.telemetry.client.PrometheusClientTest" time="0.005"/>
+  <testcase name="falls back to PROMETHEUS_BASE_URL env when baseUrl omitted()" classname="com.ffpromo.telemetry.client.PrometheusClientTest" time="0.001"/>
+  <testcase name="throws TelemetryApiError on status error envelope()" classname="com.ffpromo.telemetry.client.PrometheusClientTest" time="0.006"/>
+  <testcase name="parses vector fixture from success envelope()" classname="com.ffpromo.telemetry.client.PrometheusClientTest" time="0.005"/>
+  <testcase name="normalizes trailing slashes from baseUrl()" classname="com.ffpromo.telemetry.client.PrometheusClientTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

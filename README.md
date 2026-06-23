@@ -68,7 +68,7 @@ The worker connects to Temporal at `TEMPORAL_ADDRESS` (default `localhost:7233`)
 
 ## v2 Kotlin Backend (Phase 8+)
 
-The repo is a **hybrid monorepo**: TypeScript v1 lives in `apps/*` and `packages/*`; Kotlin v2 lives in [`kotlin/`](kotlin/README.md) (`contracts`, `db`, `worker`, **`ld-adapter`**). TypeScript remains the reference implementation until Phase 14 cutover.
+The repo is a **hybrid monorepo**: TypeScript v1 lives in `apps/*` and `packages/*`; Kotlin v2 lives in [`kotlin/`](kotlin/README.md) (`contracts`, `db`, `worker`, **`ld-adapter`**, **`telemetry`**). TypeScript remains the reference implementation until Phase 14 cutover.
 
 **Quick start (Kotlin stack):**
 
@@ -115,6 +115,12 @@ Run telemetry adapter tests (uses nock — no live Prometheus required):
 pnpm exec vitest run --project telemetry
 ```
 
+Kotlin telemetry adapter (Phase 10+):
+
+```bash
+cd kotlin && ./gradlew :telemetry:test
+```
+
 ## LaunchDarkly Adapter (`@ff-promo/ld-adapter`)
 
 Phase 2 package for reading flag state and applying semantic-patch targeting writes.
@@ -130,7 +136,7 @@ CI tests mock HTTP with **nock** — no live LaunchDarkly credentials required.
 
 ## Telemetry Adapter (`@ff-promo/telemetry`)
 
-Phase 3 package for SLO gate evaluation and pre-flight health checks against Prometheus.
+Phase 3 package for SLO gate evaluation and pre-flight health checks against Prometheus. Kotlin port: `kotlin/modules/telemetry` (Phase 10).
 
 | Variable | Purpose |
 |----------|---------|

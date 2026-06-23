@@ -1,0 +1,9 @@
+{
+  "resultType": "vector",
+  "result": [
+    {
+      "metric": { "service": "demo-service" },
+      "value": [1710000000, "50"]
+    }
+  ]
+}

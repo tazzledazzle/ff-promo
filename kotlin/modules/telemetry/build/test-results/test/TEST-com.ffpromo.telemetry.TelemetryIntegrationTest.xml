@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.telemetry.TelemetryIntegrationTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-06-23T01:43:15" hostname="Terences-MacBook-Pro-2.local" time="0.284">
+  <properties/>
+  <testcase name="TELE-03 empty vector fails closed with no_data()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.222"/>
+  <testcase name="TELE-03 threshold exceeded fails at HTTP boundary()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.012"/>
+  <testcase name="TELE-04 preflight passes when checks succeed()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.009"/>
+  <testcase name="TELE-04 preflight fails with blockReason when treatment missing()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.006"/>
+  <testcase name="TELE-03 stage fails when one policy fails()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.016"/>
+  <testcase name="TELE-03 insufficient samples fail closed()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.008"/>
+  <testcase name="TELE-03 error rate delta pass at HTTP boundary()" classname="com.ffpromo.telemetry.TelemetryIntegrationTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

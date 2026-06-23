@@ -10,6 +10,7 @@ Kotlin modules under `kotlin/` implement the Phase 8+ backend: shared contracts,
 | `modules/db` | Flyway migrations, Exposed tables, repositories |
 | `modules/worker` | Temporal promotion workflow + activities |
 | `modules/ld-adapter` | LaunchDarkly REST adapter (read, semantic patch write, rate limiting) |
+| `modules/telemetry` | Prometheus telemetry adapter (PromQL gates, preflight checks) |
 
 ## Prerequisites
 
@@ -33,6 +34,9 @@ cd kotlin
 
 # LaunchDarkly adapter tests (MockWebServer; no live LD token)
 ./gradlew :ld-adapter:test
+
+# Telemetry adapter tests (MockWebServer; no live Prometheus)
+./gradlew :telemetry:test
 
 # Run worker against local stack
 DATABASE_URL=postgresql://ffpromo:ffpromo@localhost:5432/ffpromo_kotlin \
@@ -102,14 +106,31 @@ Environment variables (Phase 11+ worker/API runtime):
 
 Factory entry point: `createLaunchDarklyProvider(LaunchDarklyClientConfig(...))`.
 
+## Telemetry adapter (`:telemetry`)
+
+Ports `packages/telemetry` with TELE-03/04 parity:
+
+- **Client:** OkHttp GET `/api/v1/query` with optional bearer token; 503-only retry
+- **PromQL:** golden-string builders (`buildErrorRateQuery`, `buildLatencyP95Query`, etc.)
+- **Gates:** `evaluateGatePolicy` / `evaluateStageGates` — treatment vs control delta, fail-closed
+- **Preflight:** `runPreflightChecks` — metric flow, sample size, user context checks
+
+Environment variables (Phase 11+ worker/API runtime):
+
+- `PROMETHEUS_BASE_URL` — optional override (default `http://localhost:9090`)
+- `PROMETHEUS_BEARER_TOKEN` — optional bearer auth for Prometheus
+
+Factory entry point: `createPrometheusClient(PrometheusClientConfig(...))`.
+
 ## Phase 8 smoke check
 
 1. `./gradlew build` — all Kotlin modules compile and unit/workflow tests pass
 2. `./gradlew :ld-adapter:test` — LaunchDarkly adapter MockWebServer suite
-3. `./gradlew :db:test` — with Docker running (Testcontainers)
-4. `docker compose up -d postgres temporal` then `:worker:run` connects
-5. Verify Flyway schema in `ffpromo_kotlin`: `\dt` shows `"Pipeline"`, `"AuditEvent"`, etc.
-6. `pnpm run build` at repo root still passes (TypeScript v1 unchanged)
+3. `./gradlew :telemetry:test` — telemetry adapter PromQL/gate/preflight suite
+4. `./gradlew :db:test` — with Docker running (Testcontainers)
+5. `docker compose up -d postgres temporal` then `:worker:run` connects
+6. Verify Flyway schema in `ffpromo_kotlin`: `\dt` shows `"Pipeline"`, `"AuditEvent"`, etc.
+7. `pnpm run build` at repo root still passes (TypeScript v1 unchanged)
 
 Optional script:
 

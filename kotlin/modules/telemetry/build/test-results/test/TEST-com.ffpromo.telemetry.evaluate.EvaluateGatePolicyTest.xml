@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.telemetry.evaluate.EvaluateGatePolicyTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-23T01:43:16" hostname="Terences-MacBook-Pro-2.local" time="0.006">
+  <properties/>
+  <testcase name="passes when delta equals threshold()" classname="com.ffpromo.telemetry.evaluate.EvaluateGatePolicyTest" time="0.001"/>
+  <testcase name="fails when delta exceeds threshold()" classname="com.ffpromo.telemetry.evaluate.EvaluateGatePolicyTest" time="0.001"/>
+  <testcase name="fails on insufficient samples()" classname="com.ffpromo.telemetry.evaluate.EvaluateGatePolicyTest" time="0.002"/>
+  <testcase name="evaluates latency_p95 delta in milliseconds()" classname="com.ffpromo.telemetry.evaluate.EvaluateGatePolicyTest" time="0.001"/>
+  <testcase name="fails closed on empty treatment data()" classname="com.ffpromo.telemetry.evaluate.EvaluateGatePolicyTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

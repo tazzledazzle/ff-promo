@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ffpromo.telemetry.query.ParseResponseTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-06-23T01:43:16" hostname="Terences-MacBook-Pro-2.local" time="0.002">
+  <properties/>
+  <testcase name="fails closed on NaN sample()" classname="com.ffpromo.telemetry.query.ParseResponseTest" time="0.001"/>
+  <testcase name="parses vector with sample value()" classname="com.ffpromo.telemetry.query.ParseResponseTest" time="0.0"/>
+  <testcase name="fails closed on empty vector()" classname="com.ffpromo.telemetry.query.ParseResponseTest" time="0.001"/>
+  <testcase name="parses scalar result type()" classname="com.ffpromo.telemetry.query.ParseResponseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
